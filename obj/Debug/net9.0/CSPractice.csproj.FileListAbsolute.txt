@@ -1,0 +1,14 @@
+C:\Users\hanin\Documents\csharp\CSPractice\bin\Debug\net9.0\CSPractice.exe
+C:\Users\hanin\Documents\csharp\CSPractice\bin\Debug\net9.0\CSPractice.deps.json
+C:\Users\hanin\Documents\csharp\CSPractice\bin\Debug\net9.0\CSPractice.runtimeconfig.json
+C:\Users\hanin\Documents\csharp\CSPractice\bin\Debug\net9.0\CSPractice.dll
+C:\Users\hanin\Documents\csharp\CSPractice\bin\Debug\net9.0\CSPractice.pdb
+C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\CSPractice.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\CSPractice.AssemblyInfoInputs.cache
+C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\CSPractice.AssemblyInfo.cs
+C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\CSPractice.csproj.CoreCompileInputs.cache
+C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\CSPractice.dll
+C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\refint\CSPractice.dll
+C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\CSPractice.pdb
+C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\CSPractice.genruntimeconfig.cache
+C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\ref\CSPractice.dll
