@@ -459,6 +459,7 @@ do {
                     Console.WriteLine($"Your input has been successfully registered to animal with ID {ID} named {name}!");
                 }
             } while (isAgeValid == false);
+            
             Console.WriteLine("Press the Enter key to continue");
             readResult = Console.ReadLine();
             break;
@@ -516,12 +517,14 @@ do {
                     if (option[0] == 'n')
                         continue; 
                 }
-                
+
+                string ID = ourAnimals[IDRow, 1];
+                string name = ourAnimals[IDRow, 2];
                 ourAnimals[IDRow, 5] = updatedPersDesc;
                 isUpdated = true;
-                Console.WriteLine("Description has been updated successfully!");
+                Console.WriteLine($"Description has been updated successfully for animal with ID {ID} named {name}!");
             } while (!isUpdated);
-            
+
             Console.WriteLine("Press the Enter key to continue");
             readResult = Console.ReadLine();
             break;
