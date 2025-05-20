@@ -247,7 +247,7 @@ do {
             Console.WriteLine("Checking all animals' age and physical description...");
 
             // Check ourAnimals[3] and ourAnimals[4] that contain ""
-            int petAge = 0;
+            int petAge;
             string petPhysDesc;
             string[] animalsEmptyAge = [];
             string[] animalsEmptyPhys = [];
@@ -463,7 +463,65 @@ do {
             readResult = Console.ReadLine();
             break;
         case "6":
-            Console.WriteLine($"Feature no. {menuSelection} is coming soon! Stay tune!");
+            Console.WriteLine($"You selected menu option {menuSelection}");
+
+            validID = false;
+            IDRow = 0;
+            do {
+                Console.Write("Please enter the animal's ID whose personality description you want to edit: ");
+                do {
+                    readResult = Console.ReadLine();
+                } while (readResult == null);
+
+                string ID = readResult.Trim().ToLower();
+                int rowIndex = 0;
+                do {
+                    if (ourAnimals[rowIndex, 1] == ID) {
+                        validID = true;
+                        IDRow = rowIndex;
+                        continue;
+                    }
+                    rowIndex++;
+                } while (validID == false && rowIndex < maxPets);
+                if (!validID)
+                    Console.WriteLine("Animal's ID is invalid. Please try again.");
+
+            } while (validID == false);
+
+            bool isUpdated = false;
+            string option;
+            do {
+                Console.WriteLine("Please enter the updated animal's personality description: ");
+                do {
+                    readResult = Console.ReadLine();
+                } while (readResult == null);
+
+                string updatedPersDesc = readResult.Trim().ToLower();
+                if (updatedPersDesc == "") {
+                    do {
+                        Console.Write("The updated description is empty. Are you sure you want to proceed? (y/n) ");
+                        do {
+                            readResult = Console.ReadLine();
+                        } while (readResult == null);
+                            
+                        option = readResult.Trim().ToLower();
+                        if (option == "")
+                            option = "y"; // To ensure that if option is empty, there is no unhandled exception
+                        if (option[0] == 'y' || option[0] == 'n')
+                                break;
+                            else
+                                Console.WriteLine("Your input is not a valid option. Please try again.");
+                    } while (option[0] != 'y' && option[0] != 'n');
+
+                    if (option[0] == 'n')
+                        continue; 
+                }
+                
+                ourAnimals[IDRow, 5] = updatedPersDesc;
+                isUpdated = true;
+                Console.WriteLine("Description has been updated successfully!");
+            } while (!isUpdated);
+            
             Console.WriteLine("Press the Enter key to continue");
             readResult = Console.ReadLine();
             break;
