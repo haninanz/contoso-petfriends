@@ -12,3 +12,4 @@ C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\refint\CSPractice.dl
 C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\CSPractice.pdb
 C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\CSPractice.genruntimeconfig.cache
 C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\ref\CSPractice.dll
+C:\Users\hanin\Documents\csharp\CSPractice\obj\Debug\net9.0\CSPractice.sourcelink.json

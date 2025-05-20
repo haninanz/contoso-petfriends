@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿// Contoso PetFriends
 // the ourAnimals array will store the following: 
 using System.Data;
 
@@ -417,7 +417,48 @@ do {
             readResult = Console.ReadLine();
             break;
         case "5":
-            Console.WriteLine($"Feature no. {menuSelection} is coming soon! Stay tune!");
+            Console.WriteLine($"You selected menu option {menuSelection}");
+
+            bool validID = false;
+            int IDRow = 0;
+            do {
+                Console.Write("Please enter the animal's ID whose age you want to edit: ");
+                do {
+                    readResult = Console.ReadLine();
+                } while (readResult == null);
+
+                string ID = readResult.Trim().ToLower();
+                int rowIndex = 0;
+                do {
+                    if (ourAnimals[rowIndex, 1] == ID) {
+                        validID = true;
+                        IDRow = rowIndex;
+                        continue;
+                    }
+                    rowIndex++;
+                } while (validID == false && rowIndex < maxPets);
+                if (!validID)
+                    Console.WriteLine("Animal's ID is invalid. Please try again.");
+            } while (validID == false);
+
+            bool isAgeValid = false;
+            int inputAge = 0;
+            do {
+                Console.Write("Please enter a valid age for the animal: ");
+                do {
+                    readResult = Console.ReadLine();
+                } while (readResult == null);
+
+                isAgeValid = int.TryParse(readResult.Trim(), out inputAge);
+                if (!isAgeValid) {
+                    Console.WriteLine("Input is invalid. Please try again.");
+                } else {
+                    ourAnimals[IDRow, 3] = inputAge.ToString();
+                    string ID = ourAnimals[IDRow, 1];
+                    string name = ourAnimals[IDRow, 2];
+                    Console.WriteLine($"Your input has been successfully registered to animal with ID {ID} named {name}!");
+                }
+            } while (isAgeValid == false);
             Console.WriteLine("Press the Enter key to continue");
             readResult = Console.ReadLine();
             break;
