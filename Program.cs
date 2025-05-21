@@ -8,6 +8,7 @@ string animalAge = "";
 string animalPhysicalDescription = "";
 string animalPersonalityDescription = "";
 string animalNickname = "";
+string suggestedDonation = "";
 
 // variables that support data entry
 int maxPets = 8;
@@ -17,7 +18,7 @@ int catCount = 0;
 int dogCount = 0;
 
 // array used to store runtime data, there is no persisted data
-string[,] ourAnimals = new string[maxPets, 6];
+string[,] ourAnimals = new string[maxPets, 7];
 
 // Generate data for ourAnimals 2D array
 for (int row = 0; row < maxPets; row++) {
@@ -29,6 +30,7 @@ for (int row = 0; row < maxPets; row++) {
             animalPhysicalDescription = "medium sized cream colored female golden retriever weighing about 65 pounds. housebroken.";
             animalPersonalityDescription = "loves to have her belly rubbed and likes to chase her tail. gives lots of kisses.";
             animalNickname = "lola";
+            suggestedDonation = "85.00";
             break;
         case 1:
             animalSpecies = "dog";
@@ -37,6 +39,7 @@ for (int row = 0; row < maxPets; row++) {
             animalPhysicalDescription = "large reddish-brown male golden retriever weighing about 85 pounds. housebroken.";
             animalPersonalityDescription = "loves to have his ears rubbed when he greets you at the door, or at any time! loves to lean-in and give doggy hugs.";
             animalNickname = "loki";
+            suggestedDonation = "49.99";
             break;
         case 2:
             animalSpecies = "cat";
@@ -45,6 +48,7 @@ for (int row = 0; row < maxPets; row++) {
             animalPhysicalDescription = "small white female weighing about 8 pounds. litter box trained.";
             animalPersonalityDescription = "friendly";
             animalNickname = "puss";
+            suggestedDonation = "40.00";
             break;
         case 3:
             animalSpecies = "cat";
@@ -53,6 +57,7 @@ for (int row = 0; row < maxPets; row++) {
             animalPhysicalDescription = "";
             animalPersonalityDescription = "";
             animalNickname = "";
+            suggestedDonation = "";
             break;
         default:
             animalSpecies = "";
@@ -61,14 +66,16 @@ for (int row = 0; row < maxPets; row++) {
             animalPhysicalDescription = "";
             animalPersonalityDescription = "";
             animalNickname = "";
+            suggestedDonation = "";
             break;
     }
-    for (int col = 0; col < 6; col++) {
+    for (int col = 0; col < 7; col++) {
         switch (col) {
             case 0:
                 if (animalSpecies == "dog") {
                     dogCount++;
-                } else if (animalSpecies == "cat") {
+                }
+                else if (animalSpecies == "cat") {
                     catCount++;
                 }
                 ourAnimals[row, col] = animalSpecies;
@@ -76,7 +83,7 @@ for (int row = 0; row < maxPets; row++) {
             case 1:
                 ourAnimals[row, col] = animalID;
                 break;
-            case 2: 
+            case 2:
                 ourAnimals[row, col] = animalNickname;
                 break;
             case 3:
@@ -87,6 +94,9 @@ for (int row = 0; row < maxPets; row++) {
                 break;
             case 5:
                 ourAnimals[row, col] = animalPersonalityDescription;
+                break;
+            case 6:
+                ourAnimals[row, col] = suggestedDonation;            
                 break;
         }
     }   
@@ -118,7 +128,7 @@ do {
             // Display all information of the pets
             for (int row = 0; row < maxPets; row++) {
                 if (ourAnimals[row, 1] == "") continue;
-                for (int col = 2; col < 6; col++) {
+                for (int col = 2; col < 7; col++) {
                     string dataDisplay;
                     if (ourAnimals[row, col] == "") {
                         dataDisplay = "(data not yet available)";
@@ -137,6 +147,15 @@ do {
                             break;
                         case 5:
                             Console.WriteLine($"Personality Description: {dataDisplay}");
+                            break;
+                        case 6:
+                            if (!decimal.TryParse(dataDisplay, out decimal petDonation)) 
+                                petDonation = 45.00m;
+
+                            if (!dataDisplay.Contains("data"))
+                                Console.WriteLine($"Suggested Donation: {petDonation:C2}");
+                            else
+                                Console.WriteLine($"Suggested Donation: {dataDisplay}");
                             break;
                         default:
                             break;
@@ -167,56 +186,62 @@ do {
                     Console.WriteLine("Sorry, currently we cannot shelter animals other than cats or dogs");
                 } else {
                     // Determine Animal ID
-                    if (animalSpecies == "dog") {
+                    if (animalSpecies == "dog")
                         animalID = "d" + (dogCount + 1);
-                    } else {
+                    else
                         animalID = "c" + (catCount + 1);
-                    }
+            
                     // Determine animal's nickname
-                    Console.WriteLine("Enter animal's nickname: ");
+                    Console.Write("Enter animal's nickname: ");
                     do {
                         readResult = Console.ReadLine();
                     } while (readResult == null);
                     animalNickname = readResult.Trim().ToLower();
 
                     // Determine animal's age
-                    Console.WriteLine("Enter animal's age: ");
+                    Console.Write("Enter animal's age: ");
                     do {
                         readResult = Console.ReadLine();
                     } while (readResult == null);
                     animalAge = readResult.Trim();
 
                     // Determine animal's physical description
-                    Console.WriteLine("Enter animals's physical description: ");
+                    Console.Write("Enter animals's physical description: ");
                     do {
                         readResult = Console.ReadLine();
                     } while (readResult == null);
                     animalPhysicalDescription = readResult.Trim().ToLower();
 
                     // Determine animal's personality
-                    Console.WriteLine("Enter animal's personality: ");
+                    Console.Write("Enter animal's personality: ");
                     do {
                         readResult = Console.ReadLine();
                     } while (readResult == null);
                     animalPersonalityDescription = readResult.Trim().ToLower();
+
+                    // Determine the suggested donation for the animal
+                    Console.Write("Enter the suggested donation for the animal: ");
+                    do {
+                        readResult = Console.ReadLine();
+                    } while (readResult == null);
+                    suggestedDonation = readResult.Trim().ToLower();
                     
                     // Check which row is empty and input the data
                     for (int row = 0; row < maxPets; row++) {
                         if (ourAnimals[row, 1] == "") {
-                            for (int col = 0; col < 6; col++) {
+                            for (int col = 0; col < 7; col++) {
                                 switch (col) {
                                     case 0:
-                                        if (animalSpecies == "dog") {
+                                        if (animalSpecies == "dog")
                                             dogCount++;
-                                        } else if (animalSpecies == "cat") {
+                                        else if (animalSpecies == "cat")
                                             catCount++;
-                                        }
                                         ourAnimals[row, col] = animalSpecies;
                                         break;
                                     case 1:
                                         ourAnimals[row, col] = animalID;
                                         break;
-                                    case 2: 
+                                    case 2:
                                         ourAnimals[row, col] = animalNickname;
                                         break;
                                     case 3:
@@ -228,10 +253,14 @@ do {
                                     case 5:
                                         ourAnimals[row, col] = animalPersonalityDescription;
                                         break;
+                                    case 6:
+                                        ourAnimals[row, col] = suggestedDonation;
+                                        break;
                                 }
                             }
                             break;
-                        } else {
+                        }
+                        else {
                             continue;
                         }
                     }
