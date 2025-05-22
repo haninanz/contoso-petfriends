@@ -2,18 +2,28 @@
 // the ourAnimals array will store the following: 
 using System.Data;
 
-string animalSpecies = "";
-string animalID = "";
-string animalAge = "";
-string animalPhysicalDescription = "";
-string animalPersonalityDescription = "";
-string animalNickname = "";
-string suggestedDonation = "";
+string animalSpecies;
+string animalID;
+string animalAge;
+string animalPhysicalDescription;
+string animalPersonalityDescription;
+string animalNickname;
+string suggestedDonation;
+
+// code number for each data of ourAnimals array
+int dataNumber = 7;
+int codeSpecies = 0;
+int codeID = 1;
+int codeNickname = 2;
+int codeAge = 3;
+int codePhysDesc = 4;
+int codePersDesc = 5;
+// int codeDonation = 6;
 
 // variables that support data entry
 int maxPets = 8;
 string? readResult;
-string menuSelection = "";
+string menuSelection;
 int catCount = 0;
 int dogCount = 0;
 
@@ -69,7 +79,7 @@ for (int row = 0; row < maxPets; row++) {
             suggestedDonation = "";
             break;
     }
-    for (int col = 0; col < 7; col++) {
+    for (int col = 0; col < dataNumber; col++) {
         switch (col) {
             case 0:
                 if (animalSpecies == "dog") {
@@ -115,7 +125,7 @@ do {
     Console.WriteLine("7. Display all cats with a specified characteristic");
     Console.WriteLine("8. Display all dogs with a specified characteristic");
 
-    Console.WriteLine("Enter your selection number or type \"Exit\": ");
+    Console.Write("Enter your selection number or type \"Exit\": ");
     do {
         readResult = Console.ReadLine();
     } while (readResult == null);
@@ -128,7 +138,7 @@ do {
             // Display all information of the pets
             for (int row = 0; row < maxPets; row++) {
                 if (ourAnimals[row, 1] == "") continue;
-                for (int col = 2; col < 7; col++) {
+                for (int col = 2; col < dataNumber; col++) {
                     string dataDisplay;
                     if (ourAnimals[row, col] == "") {
                         dataDisplay = "(data not yet available)";
@@ -164,7 +174,7 @@ do {
             }
 
             Console.WriteLine("Press the Enter key to continue");
-            readResult = Console.ReadLine();
+            _ = Console.ReadLine();
             break;
         case "2":
             Console.WriteLine($"You selected menu option {menuSelection}");
@@ -229,7 +239,7 @@ do {
                     // Check which row is empty and input the data
                     for (int row = 0; row < maxPets; row++) {
                         if (ourAnimals[row, 1] == "") {
-                            for (int col = 0; col < 7; col++) {
+                            for (int col = 0; col < dataNumber; col++) {
                                 switch (col) {
                                     case 0:
                                         if (animalSpecies == "dog")
@@ -269,7 +279,7 @@ do {
             }
 
             Console.WriteLine("Press the Enter key to continue");
-            readResult = Console.ReadLine();
+            _ = Console.ReadLine();
             break;
         case "3":
             Console.WriteLine($"You selected menu option {menuSelection}");
@@ -281,12 +291,12 @@ do {
             string[] animalsEmptyAge = [];
             string[] animalsEmptyPhys = [];
             for (int row = 0; row < maxPets; row++) {
-                if (ourAnimals[row, 1] == "") continue;
+                if (ourAnimals[row, codeID] == "") continue;
 
-                if (ourAnimals[row, 3] == "" || ourAnimals[row, 3] == "?")
-                    animalsEmptyAge = [.. animalsEmptyAge, ourAnimals[row, 1]];
-                if (ourAnimals[row, 4] == "")
-                    animalsEmptyPhys = [.. animalsEmptyPhys, ourAnimals[row, 1]];
+                if (ourAnimals[row, codeAge] == "" || ourAnimals[row, codeAge] == "?")
+                    animalsEmptyAge = [.. animalsEmptyAge, ourAnimals[row, codeID]];
+                if (ourAnimals[row, codePhysDesc] == "")
+                    animalsEmptyPhys = [.. animalsEmptyPhys, ourAnimals[row, codeID]];
             }
 
             if (animalsEmptyAge.Length == 0) {
@@ -297,13 +307,16 @@ do {
                 Console.WriteLine("ID |     Nickname     | Species");
                 foreach (string ID in animalsEmptyAge) {
                     for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, 1] == ID) {
+                        if (ourAnimals[row, codeID] == ID) {
                             string noName = "(not yet named)";
+                            string IDHolder = ourAnimals[row, codeID];
+                            string nameHolder = ourAnimals[row, codeNickname];
+                            string speciesHolder = ourAnimals[row, codeSpecies];
 
-                            if (ourAnimals[row, 2] == "")
-                                Console.WriteLine($"{ourAnimals[row, 1]} | {noName}\t ({ourAnimals[row, 0]})");
+                            if (ourAnimals[row, codeNickname] == "")
+                                Console.WriteLine($"{IDHolder} | {noName}\t ({speciesHolder})");
                             else
-                                Console.WriteLine($"{ourAnimals[row, 1]} | {ourAnimals[row, 2]}\t\t ({ourAnimals[row, 0]})");
+                                Console.WriteLine($"{IDHolder} | {nameHolder}\t\t ({speciesHolder})");
                         } 
                     }
                 }
@@ -319,8 +332,8 @@ do {
                     } while (validAge == false);
                     
                     for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, 1] == ID)
-                            ourAnimals[row, 3] = petAge.ToString();
+                        if (ourAnimals[row, codeID] == ID)
+                            ourAnimals[row, codeAge] = petAge.ToString();
                     }
                 }
             }
@@ -331,12 +344,16 @@ do {
                 Console.WriteLine("ID |     Nickname     | Species");
                 foreach (string ID in animalsEmptyPhys) {
                     for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, 1] == ID) {
+                        if (ourAnimals[row, codeID] == ID) {
                             string noName = "(not yet named)";
-                            if (ourAnimals[row, 2] == "")
-                                Console.WriteLine($"{ourAnimals[row, 1]} | {noName}\t ({ourAnimals[row, 0]})");
+                            string IDHolder = ourAnimals[row, codeID];
+                            string nameHolder = ourAnimals[row, codeNickname];
+                            string speciesHolder = ourAnimals[row, codeSpecies];
+
+                            if (ourAnimals[row, codeNickname] == "")
+                                Console.WriteLine($"{IDHolder} | {noName}\t ({speciesHolder})");
                             else
-                                Console.WriteLine($"{ourAnimals[row, 1]} | {ourAnimals[row, 2]}\t\t ({ourAnimals[row, 0]})");
+                                Console.WriteLine($"{IDHolder} | {nameHolder}\t\t ({speciesHolder})");
                         }
                     }
                 }
@@ -351,15 +368,15 @@ do {
                     } while (petPhysDesc == "");
 
                     for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, 1] == ID)
-                            ourAnimals[row, 4] = petPhysDesc;
+                        if (ourAnimals[row, codeID] == ID)
+                            ourAnimals[row, codePhysDesc] = petPhysDesc;
                     }
                 }
             }
-
             Console.WriteLine("Age and physical description fields are complete for all of our friends!");
+
             Console.WriteLine("Press the Enter key to continue");
-            readResult = Console.ReadLine();
+            _ = Console.ReadLine();
             break;
         case "4":
             Console.WriteLine($"You selected menu option {menuSelection}");
@@ -371,12 +388,12 @@ do {
             string[] animalsEmptyName = [];
             string[] animalsEmptyPers = [];
             for (int row = 0; row < maxPets; row++) {
-                if (ourAnimals[row, 1] == "") continue;
+                if (ourAnimals[row, codeID] == "") continue;
 
-                if (ourAnimals[row, 2] == "")
-                    animalsEmptyName = [.. animalsEmptyName, ourAnimals[row, 1]];
-                if (ourAnimals[row, 5] == "")
-                    animalsEmptyPers = [.. animalsEmptyPers, ourAnimals[row, 1]];
+                if (ourAnimals[row, codeNickname] == "")
+                    animalsEmptyName = [.. animalsEmptyName, ourAnimals[row, codeID]];
+                if (ourAnimals[row, codePersDesc] == "")
+                    animalsEmptyPers = [.. animalsEmptyPers, ourAnimals[row, codeID]];
             }
 
             if (animalsEmptyName.Length == 0) {
@@ -387,8 +404,11 @@ do {
                 Console.WriteLine("ID | Species");
                 foreach (string ID in animalsEmptyName) {
                     for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, 1] == ID) {
-                            Console.WriteLine($"{ourAnimals[row, 1]} | ({ourAnimals[row, 0]})");
+                        if (ourAnimals[row, codeID] == ID) {
+                            string IDHolder = ourAnimals[row, codeID];
+                            string speciesHolder = ourAnimals[row, codeSpecies];
+
+                            Console.WriteLine($"{IDHolder} | ({speciesHolder})");
                         } 
                     }
                 }
@@ -403,8 +423,8 @@ do {
                     } while (petNickname == "");
 
                     for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, 1] == ID)
-                            ourAnimals[row, 2] = petNickname;
+                        if (ourAnimals[row, codeID] == ID)
+                            ourAnimals[row, codeNickname] = petNickname;
                     }
                 }
             }
@@ -415,12 +435,16 @@ do {
                 Console.WriteLine("ID |     Nickname     | Species");
                 foreach (string ID in animalsEmptyPers) {
                     for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, 1] == ID) {
+                        if (ourAnimals[row, codeID] == ID) {
                             string noName = "(not yet named)";
-                            if (ourAnimals[row, 2] == "")
-                                Console.WriteLine($"{ourAnimals[row, 1]} | {noName}\t ({ourAnimals[row, 0]})");
+                            string IDHolder = ourAnimals[row, codeID];
+                            string nameHolder = ourAnimals[row, codeNickname];
+                            string speciesHolder = ourAnimals[row, codeSpecies];
+
+                            if (ourAnimals[row, codeNickname] == "")
+                                Console.WriteLine($"{IDHolder} | {noName}\t ({speciesHolder})");
                             else
-                                Console.WriteLine($"{ourAnimals[row, 1]} | {ourAnimals[row, 2]}\t\t ({ourAnimals[row, 0]})");
+                                Console.WriteLine($"{IDHolder} | {nameHolder}\t\t ({speciesHolder})");
                         }
                     }
                 }
@@ -435,15 +459,15 @@ do {
                     } while (petPersDesc == "");
 
                     for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, 1] == ID)
-                            ourAnimals[row, 5] = petPersDesc;
+                        if (ourAnimals[row, codeID] == ID)
+                            ourAnimals[row, codePersDesc] = petPersDesc;
                     }
                 }
             }
-
             Console.WriteLine("Nickname and personality description fields are complete for all of our friends!");
+
             Console.WriteLine("Press the Enter key to continue");
-            readResult = Console.ReadLine();
+            _ = Console.ReadLine();
             break;
         case "5":
             Console.WriteLine($"You selected menu option {menuSelection}");
@@ -457,9 +481,14 @@ do {
                 } while (readResult == null);
 
                 string ID = readResult.Trim().ToLower();
+                if (ID == "") {
+                    Console.WriteLine("The animal's ID cannot be empty. Please try again.");
+                    continue;
+                }
+                
                 int rowIndex = 0;
                 do {
-                    if (ourAnimals[rowIndex, 1] == ID) {
+                    if (ourAnimals[rowIndex, codeID] == ID) {
                         validID = true;
                         IDRow = rowIndex;
                         continue;
@@ -471,20 +500,19 @@ do {
             } while (validID == false);
 
             bool isAgeValid = false;
-            int inputAge = 0;
             do {
                 Console.Write("Please enter a valid age for the animal: ");
                 do {
                     readResult = Console.ReadLine();
                 } while (readResult == null);
 
-                isAgeValid = int.TryParse(readResult.Trim(), out inputAge);
+                isAgeValid = int.TryParse(readResult.Trim(), out int inputAge);
                 if (!isAgeValid) {
                     Console.WriteLine("Input is invalid. Please try again.");
                 } else {
-                    ourAnimals[IDRow, 3] = inputAge.ToString();
-                    string ID = ourAnimals[IDRow, 1];
-                    string name = ourAnimals[IDRow, 2];
+                    ourAnimals[IDRow, codeAge] = inputAge.ToString();
+                    string ID = ourAnimals[IDRow, codeID];
+                    string name = ourAnimals[IDRow, codeNickname];
                     Console.WriteLine($"Your input has been successfully registered to animal with ID {ID} named {name}!");
                 }
             } while (isAgeValid == false);
@@ -504,9 +532,14 @@ do {
                 } while (readResult == null);
 
                 string ID = readResult.Trim().ToLower();
+                if (ID == "") {
+                    Console.WriteLine("The animal's ID cannot be empty. Please try again.");
+                    continue;
+                }
+
                 int rowIndex = 0;
                 do {
-                    if (ourAnimals[rowIndex, 1] == ID) {
+                    if (ourAnimals[rowIndex, codeID] == ID) {
                         validID = true;
                         IDRow = rowIndex;
                         continue;
@@ -547,32 +580,32 @@ do {
                         continue; 
                 }
 
-                string ID = ourAnimals[IDRow, 1];
-                string name = ourAnimals[IDRow, 2];
-                ourAnimals[IDRow, 5] = updatedPersDesc;
+                string ID = ourAnimals[IDRow, codeID];
+                string name = ourAnimals[IDRow, codeNickname];
+                ourAnimals[IDRow, codePersDesc] = updatedPersDesc;
                 isUpdated = true;
                 Console.WriteLine($"Description has been updated successfully for animal with ID {ID} named {name}!");
             } while (!isUpdated);
 
             Console.WriteLine("Press the Enter key to continue");
-            readResult = Console.ReadLine();
+            _ = Console.ReadLine();
             break;
         case "7":
             Console.WriteLine($"Feature no. {menuSelection} is coming soon! Stay tune!");
             Console.WriteLine("Press the Enter key to continue");
-            readResult = Console.ReadLine();
+            _ = Console.ReadLine();
             break;
         case "8":
             Console.WriteLine($"Feature no. {menuSelection} is coming soon! Stay tune!");
             Console.WriteLine("Press the Enter key to continue");
-            readResult = Console.ReadLine();
+            _ = Console.ReadLine();
             break;
         case "exit":
             Console.WriteLine("See you then!");
             continue;
         default:
             Console.WriteLine("Instruction unclear; press the Enter key to restart");
-            readResult = Console.ReadLine();
+            _ = Console.ReadLine();
             break;
     }
     
