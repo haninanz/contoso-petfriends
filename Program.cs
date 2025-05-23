@@ -288,15 +288,15 @@ do {
             // Check ourAnimals[3] and ourAnimals[4] that contain ""
             int petAge;
             string petPhysDesc;
-            string[] animalsEmptyAge = [];
-            string[] animalsEmptyPhys = [];
+            int[] animalsEmptyAge = [];
+            int[] animalsEmptyPhys = [];
             for (int row = 0; row < maxPets; row++) {
                 if (ourAnimals[row, codeID] == "") continue;
 
                 if (ourAnimals[row, codeAge] == "" || ourAnimals[row, codeAge] == "?")
-                    animalsEmptyAge = [.. animalsEmptyAge, ourAnimals[row, codeID]];
+                    animalsEmptyAge = [.. animalsEmptyAge, row];
                 if (ourAnimals[row, codePhysDesc] == "")
-                    animalsEmptyPhys = [.. animalsEmptyPhys, ourAnimals[row, codeID]];
+                    animalsEmptyPhys = [.. animalsEmptyPhys, row];
             }
 
             if (animalsEmptyAge.Length == 0) {
@@ -305,25 +305,21 @@ do {
             else {
                 Console.WriteLine("Animals with empty age:");
                 Console.WriteLine("ID |     Nickname     | Species");
-                foreach (string ID in animalsEmptyAge) {
-                    for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, codeID] == ID) {
-                            string noName = "(not yet named)";
-                            string IDHolder = ourAnimals[row, codeID];
-                            string nameHolder = ourAnimals[row, codeNickname];
-                            string speciesHolder = ourAnimals[row, codeSpecies];
-
-                            if (ourAnimals[row, codeNickname] == "")
-                                Console.WriteLine($"{IDHolder} | {noName}\t ({speciesHolder})");
-                            else
-                                Console.WriteLine($"{IDHolder} | {nameHolder}\t\t ({speciesHolder})");
-                        } 
-                    }
+                foreach (int row in animalsEmptyAge) {
+                    string noName = "(not yet named)";
+                    string IDHolder = ourAnimals[row, codeID];
+                    string nameHolder = ourAnimals[row, codeNickname];
+                    string speciesHolder = ourAnimals[row, codeSpecies];
+                
+                    if (ourAnimals[row, codeNickname] == "")
+                        Console.WriteLine($"{IDHolder} | {noName}\t ({speciesHolder})");
+                    else
+                        Console.WriteLine($"{IDHolder} | {nameHolder}\t\t ({speciesHolder})");
                 }
-                foreach (string ID in animalsEmptyAge) {
+                foreach (int row in animalsEmptyAge) {
                     bool validAge = false;
                     do {
-                        Console.Write($"Enter an age for ID {ID}: ");
+                        Console.Write($"Enter an age for ID {ourAnimals[row, codeID]}: ");
                         do {
                             readResult = Console.ReadLine();
                         } while (readResult == null);
@@ -331,10 +327,7 @@ do {
                         validAge = int.TryParse(readResult.Trim(), out petAge);
                     } while (validAge == false);
                     
-                    for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, codeID] == ID)
-                            ourAnimals[row, codeAge] = petAge.ToString();
-                    }
+                    ourAnimals[row, codeAge] = petAge.ToString();
                 }
             }
             if (animalsEmptyPhys.Length == 0) {
@@ -342,24 +335,20 @@ do {
             } else {
                 Console.WriteLine("Animals with empty physical description:");
                 Console.WriteLine("ID |     Nickname     | Species");
-                foreach (string ID in animalsEmptyPhys) {
-                    for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, codeID] == ID) {
-                            string noName = "(not yet named)";
-                            string IDHolder = ourAnimals[row, codeID];
-                            string nameHolder = ourAnimals[row, codeNickname];
-                            string speciesHolder = ourAnimals[row, codeSpecies];
-
-                            if (ourAnimals[row, codeNickname] == "")
-                                Console.WriteLine($"{IDHolder} | {noName}\t ({speciesHolder})");
-                            else
-                                Console.WriteLine($"{IDHolder} | {nameHolder}\t\t ({speciesHolder})");
-                        }
-                    }
+                foreach (int row in animalsEmptyPhys) {
+                    string noName = "(not yet named)";
+                    string IDHolder = ourAnimals[row, codeID];
+                    string nameHolder = ourAnimals[row, codeNickname];
+                    string speciesHolder = ourAnimals[row, codeSpecies];
+            
+                    if (ourAnimals[row, codeNickname] == "")
+                        Console.WriteLine($"{IDHolder} | {noName}\t ({speciesHolder})");
+                    else
+                        Console.WriteLine($"{IDHolder} | {nameHolder}\t\t ({speciesHolder})");
                 }
-                foreach (string ID in animalsEmptyPhys) {
+                foreach (int row in animalsEmptyPhys) {
                     do {
-                        Console.Write($"Enter a physical description for ID {ID}: ");
+                        Console.Write($"Enter a physical description for ID {ourAnimals[row, codeID]}: ");
                         do {
                             readResult = Console.ReadLine();
                         } while (readResult == null);
@@ -367,10 +356,7 @@ do {
                         petPhysDesc = readResult.Trim().ToLower();
                     } while (petPhysDesc == "");
 
-                    for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, codeID] == ID)
-                            ourAnimals[row, codePhysDesc] = petPhysDesc;
-                    }
+                    ourAnimals[row, codePhysDesc] = petPhysDesc;
                 }
             }
             Console.WriteLine("Age and physical description fields are complete for all of our friends!");
@@ -385,15 +371,15 @@ do {
             // Check ourAnimals[2] and ourAnimals[5] that contain ""
             string petNickname;
             string petPersDesc;
-            string[] animalsEmptyName = [];
-            string[] animalsEmptyPers = [];
+            int[] animalsEmptyName = [];
+            int[] animalsEmptyPers = [];
             for (int row = 0; row < maxPets; row++) {
                 if (ourAnimals[row, codeID] == "") continue;
 
                 if (ourAnimals[row, codeNickname] == "")
-                    animalsEmptyName = [.. animalsEmptyName, ourAnimals[row, codeID]];
+                    animalsEmptyName = [.. animalsEmptyName, row];
                 if (ourAnimals[row, codePersDesc] == "")
-                    animalsEmptyPers = [.. animalsEmptyPers, ourAnimals[row, codeID]];
+                    animalsEmptyPers = [.. animalsEmptyPers, row];
             }
 
             if (animalsEmptyName.Length == 0) {
@@ -402,19 +388,15 @@ do {
             else {
                 Console.WriteLine("Animals with no nickname:");
                 Console.WriteLine("ID | Species");
-                foreach (string ID in animalsEmptyName) {
-                    for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, codeID] == ID) {
-                            string IDHolder = ourAnimals[row, codeID];
-                            string speciesHolder = ourAnimals[row, codeSpecies];
-
-                            Console.WriteLine($"{IDHolder} | ({speciesHolder})");
-                        } 
-                    }
+                foreach (int row in animalsEmptyName) {
+                    string IDHolder = ourAnimals[row, codeID];
+                    string speciesHolder = ourAnimals[row, codeSpecies];
+                    
+                    Console.WriteLine($"{IDHolder} | ({speciesHolder})");
                 }
-                foreach (string ID in animalsEmptyName) {
+                foreach (int row in animalsEmptyName) {
                     do {
-                        Console.Write($"Enter a nickname for ID {ID}: ");
+                        Console.Write($"Enter a nickname for ID {ourAnimals[row, codeID]}: ");
                         do {
                             readResult = Console.ReadLine();
                         } while (readResult == null);
@@ -422,10 +404,7 @@ do {
                         petNickname = readResult.Trim().ToLower();
                     } while (petNickname == "");
 
-                    for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, codeID] == ID)
-                            ourAnimals[row, codeNickname] = petNickname;
-                    }
+                    ourAnimals[row, codeNickname] = petNickname;
                 }
             }
             if (animalsEmptyPers.Length == 0) {
@@ -433,24 +412,20 @@ do {
             } else {
                 Console.WriteLine("Animals with empty personality description");
                 Console.WriteLine("ID |     Nickname     | Species");
-                foreach (string ID in animalsEmptyPers) {
-                    for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, codeID] == ID) {
-                            string noName = "(not yet named)";
-                            string IDHolder = ourAnimals[row, codeID];
-                            string nameHolder = ourAnimals[row, codeNickname];
-                            string speciesHolder = ourAnimals[row, codeSpecies];
-
-                            if (ourAnimals[row, codeNickname] == "")
-                                Console.WriteLine($"{IDHolder} | {noName}\t ({speciesHolder})");
-                            else
-                                Console.WriteLine($"{IDHolder} | {nameHolder}\t\t ({speciesHolder})");
-                        }
-                    }
+                foreach (int row in animalsEmptyPers) {
+                    string noName = "(not yet named)";
+                    string IDHolder = ourAnimals[row, codeID];
+                    string nameHolder = ourAnimals[row, codeNickname];
+                    string speciesHolder = ourAnimals[row, codeSpecies];
+                    
+                    if (ourAnimals[row, codeNickname] == "")
+                        Console.WriteLine($"{IDHolder} | {noName}\t ({speciesHolder})");
+                    else
+                        Console.WriteLine($"{IDHolder} | {nameHolder}\t\t ({speciesHolder})");
                 }
-                foreach (string ID in animalsEmptyPers) {
+                foreach (int row in animalsEmptyPers) {
                     do {
-                        Console.Write($"Enter a personality description for ID {ID}: ");
+                        Console.Write($"Enter a personality description for ID {ourAnimals[row, codeID]}: ");
                         do {
                             readResult = Console.ReadLine();
                         } while (readResult == null);
@@ -458,10 +433,7 @@ do {
                         petPersDesc = readResult.Trim().ToLower();
                     } while (petPersDesc == "");
 
-                    for (int row = 0; row < maxPets; row++) {
-                        if (ourAnimals[row, codeID] == ID)
-                            ourAnimals[row, codePersDesc] = petPersDesc;
-                    }
+                    ourAnimals[row, codePersDesc] = petPersDesc;
                 }
             }
             Console.WriteLine("Nickname and personality description fields are complete for all of our friends!");
@@ -518,7 +490,7 @@ do {
             } while (isAgeValid == false);
             
             Console.WriteLine("Press the Enter key to continue");
-            readResult = Console.ReadLine();
+            _ = Console.ReadLine();
             break;
         case "6":
             Console.WriteLine($"You selected menu option {menuSelection}");
@@ -591,12 +563,88 @@ do {
             _ = Console.ReadLine();
             break;
         case "7":
-            Console.WriteLine($"Feature no. {menuSelection} is coming soon! Stay tune!");
+            Console.WriteLine($"You selected menu option {menuSelection}");
+
+            string catCharacteristic;
+            do {
+                Console.Write("Please enter the characteristic of a cat that you're searching: ");
+                do {
+                    readResult = Console.ReadLine();
+                } while (readResult == null);
+
+                catCharacteristic = readResult.Trim().ToLower();
+                if (catCharacteristic == "") {
+                    Console.WriteLine("The characteristic cannot be empty. Please try again.");
+                    continue;
+                }
+            } while (catCharacteristic == "");
+
+            int[] petWithCharacteristic = [];
+            for (int row = 0; row < maxPets; row++) {
+                if (ourAnimals[row, codeID] == "") continue;
+                
+                if (ourAnimals[row, codePhysDesc].Contains(catCharacteristic))
+                    petWithCharacteristic = [.. petWithCharacteristic, row];
+            }
+
+            // Display found animals with the given characteristic
+            if (petWithCharacteristic.Length == 0) {
+                Console.WriteLine($"No cat has the characteristic {catCharacteristic}");
+            } else {
+                Console.WriteLine($"There are {petWithCharacteristic.Length} cats with {catCharacteristic} characteristic");
+                Console.WriteLine("ID |     Nickname     | Physical Description");
+                foreach (int row in petWithCharacteristic) {
+                    string IDHolder = ourAnimals[row, codeID];
+                    string nameHolder = ourAnimals[row, codeNickname];
+                    string physDescHolder = ourAnimals[row, codePhysDesc];
+                    
+                    Console.WriteLine($"{IDHolder} | {nameHolder}   | {physDescHolder}");
+                }
+            }
+
             Console.WriteLine("Press the Enter key to continue");
             _ = Console.ReadLine();
             break;
         case "8":
-            Console.WriteLine($"Feature no. {menuSelection} is coming soon! Stay tune!");
+            Console.WriteLine($"You selected menu option {menuSelection}");
+
+            string dogCharacteristic;
+            do {
+                Console.Write("Please enter the characteristic of a dog that you're searching: ");
+                do {
+                    readResult = Console.ReadLine();
+                } while (readResult == null);
+
+                dogCharacteristic = readResult.Trim().ToLower();
+                if (dogCharacteristic == "") {
+                    Console.WriteLine("The characteristic cannot be empty. Please try again.");
+                    continue;
+                }
+            } while (dogCharacteristic == "");
+
+            petWithCharacteristic = [];
+            for (int row = 0; row < maxPets; row++) {
+                if (ourAnimals[row, codeID] == "") continue;
+                
+                if (ourAnimals[row, codePhysDesc].Contains(dogCharacteristic))
+                    petWithCharacteristic = [.. petWithCharacteristic, row];
+            }
+
+            // Display found animals with the given characteristic
+            if (petWithCharacteristic.Length == 0) {
+                Console.WriteLine($"No dog has the characteristic {dogCharacteristic}");
+            } else {
+                Console.WriteLine($"There are {petWithCharacteristic.Length} dogs with {dogCharacteristic} characteristic");
+                Console.WriteLine("ID |     Nickname     | Physical Description");
+                foreach (int row in petWithCharacteristic) {
+                    string IDHolder = ourAnimals[row, codeID];
+                    string nameHolder = ourAnimals[row, codeNickname];
+                    string physDescHolder = ourAnimals[row, codePhysDesc];
+                    
+                    Console.WriteLine($"{IDHolder} | {nameHolder}   | {physDescHolder}");
+                }
+            }
+
             Console.WriteLine("Press the Enter key to continue");
             _ = Console.ReadLine();
             break;
