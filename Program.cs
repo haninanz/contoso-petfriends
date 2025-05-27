@@ -1,6 +1,7 @@
 ﻿// Contoso PetFriends
 // the ourAnimals array will store the following: 
 using System.Data;
+using System.Linq.Expressions;
 
 string animalSpecies;
 string animalID;
@@ -599,26 +600,57 @@ do {
                 }
             } while (catCharacteristic == "");
 
-            int[] petWithCharacteristic = [];
+            int matchCharacteristic = 0;
+            int[] matchPhysChar = [];
+            int[] matchPersChar = [];
             for (int row = 0; row < maxPets; row++) {
-                if (ourAnimals[row, codeID] == "") continue;
-                
-                if (ourAnimals[row, codePhysDesc].Contains(catCharacteristic))
-                    petWithCharacteristic = [.. petWithCharacteristic, row];
+                if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'd') {
+                    continue;
+                } else {
+                    if (ourAnimals[row, codePhysDesc].Contains(catCharacteristic)) {
+                        matchPhysChar = [.. matchPhysChar, row];
+                        matchCharacteristic++;
+                    }
+                    if (ourAnimals[row, codePersDesc].Contains(catCharacteristic)) {
+                        matchPersChar = [.. matchPersChar, row];
+                        matchCharacteristic++;
+                    }
+                } 
             }
 
             // Display found animals with the given characteristic
-            if (petWithCharacteristic.Length == 0) {
+            if (matchCharacteristic == 0) {
                 Console.WriteLine($"No cat has the characteristic {catCharacteristic}");
             } else {
-                Console.WriteLine($"There are {petWithCharacteristic.Length} cats with {catCharacteristic} characteristic");
-                Console.WriteLine("ID |     Nickname     | Physical Description");
-                foreach (int row in petWithCharacteristic) {
-                    string IDHolder = ourAnimals[row, codeID];
-                    string nameHolder = ourAnimals[row, codeNickname];
-                    string physDescHolder = ourAnimals[row, codePhysDesc];
-                    
-                    Console.WriteLine($"{IDHolder} | {nameHolder}   | {physDescHolder}");
+                int totalLetters = 24;
+                string strDesc = "Description";
+                int paddingLeft = strDesc.Length + 1;
+
+                Console.WriteLine($"There are {matchCharacteristic} matching results.");
+
+                if (matchPhysChar.Length != 0) {
+                    Console.WriteLine($"Matching physical description:");
+                    Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|".PadRight(2) + $"{strDesc}");
+                    foreach (int row in matchPhysChar) {
+                        string IDHolder = ourAnimals[row, codeID];
+                        string nameHolder = ourAnimals[row, codeNickname];
+                        string descHolder = ourAnimals[row, codePhysDesc];
+                        paddingLeft = nameHolder.Length + 1;
+
+                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}");
+                    }
+                }
+                if (matchPersChar.Length != 0) {
+                    Console.WriteLine($"Matching personality description:");
+                    Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|".PadRight(2) + $"{strDesc}");
+                    foreach (int row in matchPersChar) {
+                        string IDHolder = ourAnimals[row, codeID];
+                        string nameHolder = ourAnimals[row, codeNickname];
+                        string descHolder = ourAnimals[row, codePersDesc];
+                        paddingLeft = nameHolder.Length + 1;
+
+                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}");
+                    }
                 }
             }
 
@@ -642,26 +674,57 @@ do {
                 }
             } while (dogCharacteristic == "");
 
-            petWithCharacteristic = [];
+            matchCharacteristic = 0;
+            matchPhysChar = [];
+            matchPersChar = [];
             for (int row = 0; row < maxPets; row++) {
-                if (ourAnimals[row, codeID] == "") continue;
-                
-                if (ourAnimals[row, codePhysDesc].Contains(dogCharacteristic))
-                    petWithCharacteristic = [.. petWithCharacteristic, row];
+                if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'c') {
+                    continue;
+                } else {
+                    if (ourAnimals[row, codePhysDesc].Contains(dogCharacteristic)) {
+                        matchPhysChar = [.. matchPhysChar, row];
+                        matchCharacteristic++;
+                    }
+                    if (ourAnimals[row, codePersDesc].Contains(dogCharacteristic)) {
+                        matchPersChar = [.. matchPersChar, row];
+                        matchCharacteristic++;
+                    }
+                } 
             }
 
             // Display found animals with the given characteristic
-            if (petWithCharacteristic.Length == 0) {
+            if (matchCharacteristic == 0) {
                 Console.WriteLine($"No dog has the characteristic {dogCharacteristic}");
             } else {
-                Console.WriteLine($"There are {petWithCharacteristic.Length} dogs with {dogCharacteristic} characteristic");
-                Console.WriteLine("ID |     Nickname     | Physical Description");
-                foreach (int row in petWithCharacteristic) {
-                    string IDHolder = ourAnimals[row, codeID];
-                    string nameHolder = ourAnimals[row, codeNickname];
-                    string physDescHolder = ourAnimals[row, codePhysDesc];
-                    
-                    Console.WriteLine($"{IDHolder} | {nameHolder}   | {physDescHolder}");
+                int totalLetters = 24;
+                string strDesc = "Description";
+                int paddingLeft;
+
+                Console.WriteLine($"There are {matchCharacteristic} matching results.");
+
+                if (matchPhysChar.Length != 0) {
+                    Console.WriteLine($"Matching physical description:");
+                    Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|".PadRight(2) + $"{strDesc}");
+                    foreach (int row in matchPhysChar) {
+                        string IDHolder = ourAnimals[row, codeID];
+                        string nameHolder = ourAnimals[row, codeNickname];
+                        string descHolder = ourAnimals[row, codePhysDesc];
+                        paddingLeft = nameHolder.Length + 1;
+
+                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}");
+                    }
+                }
+                if (matchPersChar.Length != 0) {
+                    Console.WriteLine($"Matching personality description:");
+                    Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|".PadRight(2) + $"{strDesc}");
+                    foreach (int row in matchPersChar) {
+                        string IDHolder = ourAnimals[row, codeID];
+                        string nameHolder = ourAnimals[row, codeNickname];
+                        string descHolder = ourAnimals[row, codePersDesc];
+                        paddingLeft = nameHolder.Length + 1;
+
+                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}");
+                    }
                 }
             }
 
