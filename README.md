@@ -8,3 +8,4 @@ Currently working as intended (screenshots may be added later if I have the time
 2. ~~Add code number for each column (each data e.g. pet's ID, pet's nickname, etc.) in ourAnimals array~~ (done)
 3. ~~Change to methods PadLeft() or PadRight() for output formatting~~ (done)
 4. ~~Modify menu selection 7 & 8 to enable search for~~ ~~physical description~~ (done), ~~personality~~, (done) ~~or combined physical and personality description~~ (scraped for now because this might need AI)
+5. ~~Modify menu selection 7 & 8 to enable search with multiple keywords (comma-separated)~~ (done)

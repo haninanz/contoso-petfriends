@@ -603,19 +603,23 @@ do {
             int matchCharacteristic = 0;
             int[] matchPhysChar = [];
             int[] matchPersChar = [];
-            for (int row = 0; row < maxPets; row++) {
-                if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'd') {
-                    continue;
-                } else {
-                    if (ourAnimals[row, codePhysDesc].Contains(catCharacteristic)) {
-                        matchPhysChar = [.. matchPhysChar, row];
-                        matchCharacteristic++;
-                    }
-                    if (ourAnimals[row, codePersDesc].Contains(catCharacteristic)) {
-                        matchPersChar = [.. matchPersChar, row];
-                        matchCharacteristic++;
-                    }
-                } 
+            string[] arrayChars = catCharacteristic.Split(',');
+            foreach (string keyword in arrayChars) {
+                string cleanKeyword = keyword.Trim();
+                for (int row = 0; row < maxPets; row++) {
+                    if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'd') {
+                        continue;
+                    } else {
+                        if (ourAnimals[row, codePhysDesc].Contains(cleanKeyword)) {
+                            matchPhysChar = [.. matchPhysChar, row];
+                            matchCharacteristic++;
+                        }
+                        if (ourAnimals[row, codePersDesc].Contains(cleanKeyword)) {
+                            matchPersChar = [.. matchPersChar, row];
+                            matchCharacteristic++;
+                        }
+                    } 
+                }    
             }
 
             // Display found animals with the given characteristic
@@ -624,7 +628,7 @@ do {
             } else {
                 int totalLetters = 24;
                 string strDesc = "Description";
-                int paddingLeft = strDesc.Length + 1;
+                int paddingLeft;
 
                 Console.WriteLine($"There are {matchCharacteristic} matching results.");
 
@@ -677,21 +681,25 @@ do {
             matchCharacteristic = 0;
             matchPhysChar = [];
             matchPersChar = [];
-            for (int row = 0; row < maxPets; row++) {
-                if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'c') {
-                    continue;
-                } else {
-                    if (ourAnimals[row, codePhysDesc].Contains(dogCharacteristic)) {
-                        matchPhysChar = [.. matchPhysChar, row];
-                        matchCharacteristic++;
-                    }
-                    if (ourAnimals[row, codePersDesc].Contains(dogCharacteristic)) {
-                        matchPersChar = [.. matchPersChar, row];
-                        matchCharacteristic++;
-                    }
-                } 
+            arrayChars = dogCharacteristic.Split(',');
+            foreach (string keyword in arrayChars) {
+                string cleanKeyword = keyword.Trim();
+                for (int row = 0; row < maxPets; row++) {
+                    if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'c') {
+                        continue;
+                    } else {
+                        if (ourAnimals[row, codePhysDesc].Contains(cleanKeyword)) {
+                            matchPhysChar = [.. matchPhysChar, row];
+                            matchCharacteristic++;
+                        }
+                        if (ourAnimals[row, codePersDesc].Contains(cleanKeyword)) {
+                            matchPersChar = [.. matchPersChar, row];
+                            matchCharacteristic++;
+                        }
+                    } 
+                }
             }
-
+            
             // Display found animals with the given characteristic
             if (matchCharacteristic == 0) {
                 Console.WriteLine($"No dog has the characteristic {dogCharacteristic}");
