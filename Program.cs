@@ -588,7 +588,7 @@ do {
 
             string catCharacteristic;
             do {
-                Console.Write("Please enter the characteristic of a cat that you're searching: ");
+                Console.Write("Please enter the characteristic of a cat that you're searching (use comma for multiple characteristics): ");
                 do {
                     readResult = Console.ReadLine();
                 } while (readResult == null);
@@ -666,7 +666,7 @@ do {
 
             string dogCharacteristic;
             do {
-                Console.Write("Please enter the characteristic of a dog that you're searching: ");
+                Console.Write("Please enter the characteristic of a dog that you're searching (use comma for multiple characteristics): ");
                 do {
                     readResult = Console.ReadLine();
                 } while (readResult == null);
