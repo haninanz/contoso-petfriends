@@ -1,7 +1,6 @@
 ﻿// Contoso PetFriends
 // the ourAnimals array will store the following: 
 using System.Data;
-using System.Text.RegularExpressions;
 using System.Linq.Expressions;
 
 string animalSpecies;
@@ -70,6 +69,15 @@ for (int row = 0; row < maxPets; row++) {
             animalPersonalityDescription = "";
             animalNickname = "";
             suggestedDonation = "";
+            break;
+        case 4:
+            animalSpecies = "cat";
+            animalID = "c3";
+            animalAge = "3";
+            animalPhysicalDescription = "male tabby cat brimming with masculinity";
+            animalPersonalityDescription = "alpha male cat that likes to assert dominance and meow loudly";
+            animalNickname = "impostor";
+            suggestedDonation = "12.99";
             break;
         default:
             animalSpecies = "";
@@ -604,20 +612,19 @@ do {
             int matchCharacteristic = 0;
             int[] matchPhysChar = [];
             int[] matchPersChar = [];
-            string[] arrayChars = catCharacteristic.Split(',');
+            string[] arrayChars = catCharacteristic.Split(["or", "and", ","], StringSplitOptions.TrimEntries);
             foreach (string keyword in arrayChars) {
-                string cleanKeyword = keyword.Trim();
                 for (int row = 0; row < maxPets; row++) {
                     if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'd') {
                         continue;
                     } else {
-                        if (ourAnimals[row, codePhysDesc].Contains(cleanKeyword)) {
+                        if (ourAnimals[row, codePhysDesc].Contains(keyword)) {
                             if (!matchPhysChar.Contains(row)) {
                                 matchPhysChar = [.. matchPhysChar, row];
                                 matchCharacteristic++;
                             }
                         }
-                        if (ourAnimals[row, codePersDesc].Contains(cleanKeyword)) {
+                        if (ourAnimals[row, codePersDesc].Contains(keyword)) {
                             if (!matchPersChar.Contains(row)) {
                                 matchPersChar = [.. matchPersChar, row];
                                 matchCharacteristic++;
@@ -647,10 +654,8 @@ do {
                         paddingLeft = nameHolder.Length + 1;
 
                         foreach (string keyword in arrayChars) {
-                            string cleanKeyword = keyword.Trim();
-                            string pattern = string.Format(@"\b{0}\b", cleanKeyword);
-                            if (descHolder.Contains(cleanKeyword))
-                                descHolder = Regex.Replace(descHolder, pattern, $"\x1b[4m{cleanKeyword}\x1b[24m");
+                            if (descHolder.Contains(keyword))
+                                descHolder = descHolder.Replace(keyword, $"\x1b[4m{keyword}\x1b[24m");    
                         }
                         Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}");
                     }
@@ -665,10 +670,8 @@ do {
                         paddingLeft = nameHolder.Length + 1;
 
                         foreach (string keyword in arrayChars) {
-                            string cleanKeyword = keyword.Trim();
-                            string pattern = string.Format(@"\b{0}\b", cleanKeyword);
-                            if (descHolder.Contains(cleanKeyword))
-                                descHolder = Regex.Replace(descHolder, pattern, $"\x1b[4m{cleanKeyword}\x1b[24m");
+                            if (descHolder.Contains(keyword))
+                                descHolder = descHolder.Replace(keyword, $"\x1b[4m{keyword}\x1b[24m");    
                         }
                         Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}");
                     }
@@ -698,20 +701,19 @@ do {
             matchCharacteristic = 0;
             matchPhysChar = [];
             matchPersChar = [];
-            arrayChars = dogCharacteristic.Split(',');
+            arrayChars = dogCharacteristic.Split(["or", "and", ","], StringSplitOptions.TrimEntries);
             foreach (string keyword in arrayChars) {
-                string cleanKeyword = keyword.Trim();
                 for (int row = 0; row < maxPets; row++) {
                     if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'c') {
                         continue;
                     } else {
-                        if (ourAnimals[row, codePhysDesc].Contains(cleanKeyword)) {
+                        if (ourAnimals[row, codePhysDesc].Contains(keyword)) {
                             if (!matchPhysChar.Contains(row)) {
                                 matchPhysChar = [.. matchPhysChar, row];
                                 matchCharacteristic++;
                             }
                         }
-                        if (ourAnimals[row, codePersDesc].Contains(cleanKeyword)) {
+                        if (ourAnimals[row, codePersDesc].Contains(keyword)) {
                             if (!matchPersChar.Contains(row)) {
                                 matchPersChar = [.. matchPersChar, row];
                                 matchCharacteristic++;
@@ -741,10 +743,8 @@ do {
                         paddingLeft = nameHolder.Length + 1;
 
                         foreach (string keyword in arrayChars) {
-                            string cleanKeyword = keyword.Trim();
-                            string pattern = string.Format(@"\b{0}\b", cleanKeyword);
-                            if (descHolder.Contains(cleanKeyword))
-                                descHolder = Regex.Replace(descHolder, pattern, $"\x1b[4m{cleanKeyword}\x1b[24m");
+                            if (descHolder.Contains(keyword))
+                                descHolder = descHolder.Replace(keyword, $"\x1b[4m{keyword}\x1b[24m");    
                         }
                         Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}");
                     }
@@ -759,10 +759,8 @@ do {
                         paddingLeft = nameHolder.Length + 1;
 
                         foreach (string keyword in arrayChars) {
-                            string cleanKeyword = keyword.Trim();
-                            string pattern = string.Format(@"\b{0}\b", cleanKeyword);
-                            if (descHolder.Contains(cleanKeyword))
-                                descHolder = Regex.Replace(descHolder, pattern, $"\x1b[4m{cleanKeyword}\x1b[24m");
+                            if (descHolder.Contains(keyword))
+                                descHolder = descHolder.Replace(keyword, $"\x1b[4m{keyword}\x1b[24m");    
                         }
                         Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}");
                     }
