@@ -612,7 +612,7 @@ do {
             int matchCharacteristic = 0;
             int[] matchPhysChar = [];
             int[] matchPersChar = [];
-            string[] arrayChars = catCharacteristic.Split(["or", "and", ","], StringSplitOptions.TrimEntries);
+            string[] arrayChars = [.. catCharacteristic.Split(["or", "and", ",", " "], StringSplitOptions.RemoveEmptyEntries).Distinct()];
             foreach (string keyword in arrayChars) {
                 for (int row = 0; row < maxPets; row++) {
                     if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'd') {
@@ -642,7 +642,7 @@ do {
                 string strDesc = "Description";
                 int paddingLeft;
 
-                Console.WriteLine($"There are {matchCharacteristic} matching results.");
+                Console.WriteLine($"There are {matchCharacteristic} matching/similar results.");
 
                 if (matchPhysChar.Length != 0) {
                     Console.WriteLine($"Matching physical description:");
@@ -701,7 +701,7 @@ do {
             matchCharacteristic = 0;
             matchPhysChar = [];
             matchPersChar = [];
-            arrayChars = dogCharacteristic.Split(["or", "and", ","], StringSplitOptions.TrimEntries);
+            arrayChars = [.. dogCharacteristic.Split(["or", "and", ",", " "], StringSplitOptions.RemoveEmptyEntries).Distinct()];
             foreach (string keyword in arrayChars) {
                 for (int row = 0; row < maxPets; row++) {
                     if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'c') {
@@ -731,7 +731,7 @@ do {
                 string strDesc = "Description";
                 int paddingLeft;
 
-                Console.WriteLine($"There are {matchCharacteristic} matching results.");
+                Console.WriteLine($"There are {matchCharacteristic} matching/similar results.");
 
                 if (matchPhysChar.Length != 0) {
                     Console.WriteLine($"Matching physical description:");
