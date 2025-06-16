@@ -23,7 +23,6 @@ int codeDonation = 6;
 
 // variables that support data entry
 int maxPets = 8;
-string? readResult;
 string menuSelection;
 int catCount = 0;
 int dogCount = 0;
@@ -112,11 +111,7 @@ do
     Console.WriteLine("8. Display all dogs with a specified characteristic");
 
     Console.Write("Enter your selection number or type \"Exit\": ");
-    do
-    {
-        readResult = Console.ReadLine();
-    } while (readResult == null);
-    menuSelection = readResult.Trim().ToLower();
+    menuSelection = ReadInput();
 
     switch (menuSelection)
     {
@@ -172,6 +167,9 @@ do
         case "2":
             Console.WriteLine($"You selected menu option {menuSelection}");
 
+            Console.Write("Checking our database");
+            LoadingAnimation();
+
             int currentPets = dogCount + catCount;
             if (currentPets == maxPets)
             {
@@ -182,11 +180,7 @@ do
             {
                 Console.WriteLine($"Contoso PetFriends currently have {dogCount + catCount} pets that need homes. We can manage {(maxPets - catCount - dogCount)} more.");
                 Console.Write("Enter animal's species: ");
-                do
-                {
-                    readResult = Console.ReadLine();
-                } while (readResult == null);
-                animalSpecies = readResult.Trim().ToLower();
+                animalSpecies = ReadInput();
 
                 // Check if the input is either cat or dog
                 if (animalSpecies != "cat" && animalSpecies != "dog")
@@ -203,43 +197,23 @@ do
 
                     // Determine animal's nickname
                     Console.Write("Enter animal's nickname: ");
-                    do
-                    {
-                        readResult = Console.ReadLine();
-                    } while (readResult == null);
-                    animalNickname = readResult.Trim().ToLower();
+                    animalNickname = ReadInput();
 
                     // Determine animal's age
                     Console.Write("Enter animal's age: ");
-                    do
-                    {
-                        readResult = Console.ReadLine();
-                    } while (readResult == null);
-                    animalAge = readResult.Trim();
+                    animalAge = ReadInput();
 
                     // Determine animal's physical description
                     Console.Write("Enter animals's physical description: ");
-                    do
-                    {
-                        readResult = Console.ReadLine();
-                    } while (readResult == null);
-                    animalPhysicalDescription = readResult.Trim().ToLower();
+                    animalPhysicalDescription = ReadInput();
 
                     // Determine animal's personality
                     Console.Write("Enter animal's personality: ");
-                    do
-                    {
-                        readResult = Console.ReadLine();
-                    } while (readResult == null);
-                    animalPersonalityDescription = readResult.Trim().ToLower();
+                    animalPersonalityDescription = ReadInput();
 
                     // Determine the suggested donation for the animal
                     Console.Write("Enter the suggested donation for the animal: ");
-                    do
-                    {
-                        readResult = Console.ReadLine();
-                    } while (readResult == null);
-                    suggestedDonation = readResult.Trim().ToLower();
+                    suggestedDonation = ReadInput();
 
                     // Input the data with the same method we used when generating data
                     CreateNewPetData(animalSpecies, animalID, animalNickname, animalAge, animalPhysicalDescription, animalPersonalityDescription, suggestedDonation);
@@ -301,15 +275,12 @@ do
                 foreach (int row in animalsEmptyAge)
                 {
                     bool validAge = false;
+                    
                     do
                     {
                         Console.Write($"Enter an age for ID {ourAnimals[row, codeID]}: ");
-                        do
-                        {
-                            readResult = Console.ReadLine();
-                        } while (readResult == null);
-
-                        validAge = int.TryParse(readResult.Trim(), out petAge);
+                        animalAge = ReadInput();
+                        validAge = int.TryParse(animalAge.Trim(), out petAge);
                     } while (validAge == false);
 
                     ourAnimals[row, codeAge] = petAge.ToString();
@@ -349,12 +320,7 @@ do
                     do
                     {
                         Console.Write($"Enter a physical description for ID {ourAnimals[row, codeID]}: ");
-                        do
-                        {
-                            readResult = Console.ReadLine();
-                        } while (readResult == null);
-
-                        petPhysDesc = readResult.Trim().ToLower();
+                        petPhysDesc = ReadInput();
                     } while (petPhysDesc == "");
 
                     ourAnimals[row, codePhysDesc] = petPhysDesc;
@@ -405,12 +371,7 @@ do
                     do
                     {
                         Console.Write($"Enter a nickname for ID {ourAnimals[row, codeID]}: ");
-                        do
-                        {
-                            readResult = Console.ReadLine();
-                        } while (readResult == null);
-
-                        petNickname = readResult.Trim().ToLower();
+                        petNickname = ReadInput();
                     } while (petNickname == "");
 
                     ourAnimals[row, codeNickname] = petNickname;
@@ -449,12 +410,7 @@ do
                     do
                     {
                         Console.Write($"Enter a personality description for ID {ourAnimals[row, codeID]}: ");
-                        do
-                        {
-                            readResult = Console.ReadLine();
-                        } while (readResult == null);
-
-                        petPersDesc = readResult.Trim().ToLower();
+                        petPersDesc = ReadInput();
                     } while (petPersDesc == "");
 
                     ourAnimals[row, codePersDesc] = petPersDesc;
@@ -473,12 +429,8 @@ do
             do
             {
                 Console.Write("Please enter the animal's ID whose age you want to edit: ");
-                do
-                {
-                    readResult = Console.ReadLine();
-                } while (readResult == null);
-
-                string ID = readResult.Trim().ToLower();
+                string ID = ReadInput();
+                
                 if (ID == "")
                 {
                     Console.WriteLine("The animal's ID cannot be empty. Please try again.");
@@ -504,12 +456,9 @@ do
             do
             {
                 Console.Write("Please enter a valid age for the animal: ");
-                do
-                {
-                    readResult = Console.ReadLine();
-                } while (readResult == null);
+                animalAge = ReadInput();
 
-                isAgeValid = int.TryParse(readResult.Trim(), out int inputAge);
+                isAgeValid = int.TryParse(animalAge.Trim(), out int inputAge);
                 if (!isAgeValid)
                 {
                     Console.WriteLine("Input is invalid. Please try again.");
@@ -534,12 +483,8 @@ do
             do
             {
                 Console.Write("Please enter the animal's ID whose personality description you want to edit: ");
-                do
-                {
-                    readResult = Console.ReadLine();
-                } while (readResult == null);
+                string ID = ReadInput();
 
-                string ID = readResult.Trim().ToLower();
                 if (ID == "")
                 {
                     Console.WriteLine("The animal's ID cannot be empty. Please try again.");
@@ -567,23 +512,15 @@ do
             do
             {
                 Console.WriteLine("Please enter the updated animal's personality description: ");
-                do
-                {
-                    readResult = Console.ReadLine();
-                } while (readResult == null);
 
-                string updatedPersDesc = readResult.Trim().ToLower();
+                string updatedPersDesc = ReadInput();
                 if (updatedPersDesc == "")
                 {
                     do
                     {
                         Console.Write("The updated description is empty. Are you sure you want to proceed? (y/n) ");
-                        do
-                        {
-                            readResult = Console.ReadLine();
-                        } while (readResult == null);
 
-                        option = readResult.Trim().ToLower();
+                        option = ReadInput();
                         if (option == "")
                             option = "y"; // To ensure that if option is empty, there is no unhandled exception
                         if (option[0] == 'y' || option[0] == 'n')
@@ -613,12 +550,8 @@ do
             do
             {
                 Console.Write("Please enter the characteristic of a cat that you're searching (use comma for multiple characteristics): ");
-                do
-                {
-                    readResult = Console.ReadLine();
-                } while (readResult == null);
 
-                catCharacteristic = readResult.Trim().ToLower();
+                catCharacteristic = ReadInput();
                 if (catCharacteristic == "")
                 {
                     Console.WriteLine("The characteristic cannot be empty. Please try again.");
@@ -735,12 +668,8 @@ do
             do
             {
                 Console.Write("Please enter the characteristic of a dog that you're searching (use comma for multiple characteristics): ");
-                do
-                {
-                    readResult = Console.ReadLine();
-                } while (readResult == null);
 
-                dogCharacteristic = readResult.Trim().ToLower();
+                dogCharacteristic = ReadInput();
                 if (dogCharacteristic == "")
                 {
                     Console.WriteLine("The characteristic cannot be empty. Please try again.");
@@ -909,4 +838,18 @@ void LoadingAnimation()
         Thread.Sleep(500);
     }
     Console.Write($"\r{new String(' ', Console.BufferWidth)}");
+}
+
+string ReadInput()
+{
+    string? readResult;
+    string result;
+
+    do
+    {
+        readResult = Console.ReadLine();
+    } while (readResult == null);
+    result = readResult.Trim().ToLower();
+
+    return result;
 }
