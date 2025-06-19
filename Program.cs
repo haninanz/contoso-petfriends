@@ -232,17 +232,8 @@ do
             // Check ourAnimals[3] and ourAnimals[4] that contain ""
             int petAge;
             string petPhysDesc;
-            int[] animalsEmptyAge = [];
-            int[] animalsEmptyPhys = [];
-            for (int row = 0; row < maxPets; row++)
-            {
-                if (ourAnimals[row, codeID] == "") continue;
-
-                if (ourAnimals[row, codeAge] == "" || ourAnimals[row, codeAge] == "?")
-                    animalsEmptyAge = [.. animalsEmptyAge, row];
-                if (ourAnimals[row, codePhysDesc] == "")
-                    animalsEmptyPhys = [.. animalsEmptyPhys, row];
-            }
+            int[] animalsEmptyAge = CheckEmptyRows(codeAge);
+            int[] animalsEmptyPhys = CheckEmptyRows(codePhysDesc);
 
             if (animalsEmptyAge.Length == 0)
             {
@@ -339,17 +330,8 @@ do
             // Check ourAnimals[2] and ourAnimals[5] that contain ""
             string petNickname;
             string petPersDesc;
-            int[] animalsEmptyName = [];
-            int[] animalsEmptyPers = [];
-            for (int row = 0; row < maxPets; row++)
-            {
-                if (ourAnimals[row, codeID] == "") continue;
-
-                if (ourAnimals[row, codeNickname] == "")
-                    animalsEmptyName = [.. animalsEmptyName, row];
-                if (ourAnimals[row, codePersDesc] == "")
-                    animalsEmptyPers = [.. animalsEmptyPers, row];
-            }
+            int[] animalsEmptyName = CheckEmptyRows(codeNickname);
+            int[] animalsEmptyPers = CheckEmptyRows(codePersDesc);
 
             if (animalsEmptyName.Length == 0)
             {
@@ -852,4 +834,20 @@ string ReadInput()
     result = readResult.Trim().ToLower();
 
     return result;
+}
+
+int[] CheckEmptyRows(int code)
+{
+    /* Check empty or "?" data rows in the ourAnimals array
+       for the requested code */
+    int[] emptyRows = [];
+    for (int row = 0; row < maxPets; row++)
+    {
+        if (ourAnimals[row, codeID] == "") continue;
+
+        if (ourAnimals[row, code] == "" || ourAnimals[row, code] == "?")
+            emptyRows = [.. emptyRows, row];
+    }
+
+    return emptyRows;
 }
