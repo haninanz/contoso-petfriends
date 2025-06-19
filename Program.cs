@@ -241,32 +241,13 @@ do
             }
             else
             {
-                int totalLetters = 24;
-
                 Console.WriteLine("Animals with empty age:");
-                Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|" + "Species".PadLeft(8));
-                foreach (int row in animalsEmptyAge)
-                {
-                    string noName = "(not yet named)";
-                    string IDHolder = ourAnimals[row, codeID];
-                    string nameHolder = ourAnimals[row, codeNickname];
-                    string speciesHolder = ourAnimals[row, codeSpecies];
-
-                    if (ourAnimals[row, codeNickname] == "")
-                    {
-                        int paddingLeft = noName.Length + 1;
-                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{noName}".PadLeft(paddingLeft).PadRight(totalLetters) + $"({speciesHolder})".PadLeft(8));
-                    }
-                    else
-                    {
-                        int paddingLeft = nameHolder.Length + 1;
-                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + $"({speciesHolder})".PadLeft(8));
-                    }
-                }
+                PrintEmptyData(animalsEmptyAge);
+                
                 foreach (int row in animalsEmptyAge)
                 {
                     bool validAge = false;
-                    
+
                     do
                     {
                         Console.Write($"Enter an age for ID {ourAnimals[row, codeID]}: ");
@@ -283,29 +264,9 @@ do
             }
             else
             {
-                int totalLetters = 24;
-
                 Console.WriteLine("Animals with empty physical description:");
-                Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|" + "Species".PadLeft(8));
-                foreach (int row in animalsEmptyPhys)
-                {
-                    string noName = "(not yet named)";
-                    string IDHolder = ourAnimals[row, codeID];
-                    string nameHolder = ourAnimals[row, codeNickname];
-                    string speciesHolder = ourAnimals[row, codeSpecies];
-
-                    if (ourAnimals[row, codeNickname] == "")
-                    {
-                        int paddingLeft = noName.Length + 1;
-                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{noName}".PadLeft(paddingLeft).PadRight(totalLetters) + $"({speciesHolder})".PadLeft(8));
-                    }
-                    else
-                    {
-                        int paddingLeft = nameHolder.Length + 1;
-                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + $"({speciesHolder})".PadLeft(8));
-                    }
-
-                }
+                PrintEmptyData(animalsEmptyPhys);
+                
                 foreach (int row in animalsEmptyPhys)
                 {
                     do
@@ -340,14 +301,8 @@ do
             else
             {
                 Console.WriteLine("Animals with no nickname:");
-                Console.WriteLine("ID".PadRight(3) + "|".PadRight(2) + "Species");
-                foreach (int row in animalsEmptyName)
-                {
-                    string IDHolder = ourAnimals[row, codeID];
-                    string speciesHolder = ourAnimals[row, codeSpecies];
-
-                    Console.WriteLine($"{IDHolder} | ({speciesHolder})");
-                }
+                PrintEmptyDataNoName(animalsEmptyName);
+                
                 foreach (int row in animalsEmptyName)
                 {
                     do
@@ -365,28 +320,9 @@ do
             }
             else
             {
-                int totalLetters = 24;
-
                 Console.WriteLine("Animals with empty personality description");
-                Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|" + "Species".PadLeft(8));
-                foreach (int row in animalsEmptyPers)
-                {
-                    string noName = "(not yet named)";
-                    string IDHolder = ourAnimals[row, codeID];
-                    string nameHolder = ourAnimals[row, codeNickname];
-                    string speciesHolder = ourAnimals[row, codeSpecies];
-
-                    if (ourAnimals[row, codeNickname] == "")
-                    {
-                        int paddingLeft = noName.Length + 1;
-                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{noName}".PadLeft(paddingLeft).PadRight(totalLetters) + $"({speciesHolder})".PadLeft(8));
-                    }
-                    else
-                    {
-                        int paddingLeft = nameHolder.Length + 1;
-                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + $"({speciesHolder})".PadLeft(8));
-                    }
-                }
+                PrintEmptyData(animalsEmptyPers);
+            
                 foreach (int row in animalsEmptyPers)
                 {
                     do
@@ -850,4 +786,39 @@ int[] CheckEmptyRows(int code)
     }
 
     return emptyRows;
+}
+
+void PrintEmptyData(int[] emptyRows)
+{
+    int totalLetters = 24;
+
+    Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|" + "Species".PadLeft(8));
+    foreach (int row in emptyRows)
+    {
+        string noName = "(not yet named)";
+        string IDHolder = ourAnimals[row, codeID];
+        string nameHolder = ourAnimals[row, codeNickname];
+        string speciesHolder = ourAnimals[row, codeSpecies];
+        if (ourAnimals[row, codeNickname] == "")
+        {
+            int paddingLeft = noName.Length + 1;
+            Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{noName}".PadLeft(paddingLeft).PadRight(totalLetters) + $"({speciesHolder})".PadLeft(8));
+        }
+        else
+        {
+            int paddingLeft = nameHolder.Length + 1;
+            Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + $"({speciesHolder})".PadLeft(8));
+        }
+    }
+}
+
+void PrintEmptyDataNoName(int[] emptyRows)
+{
+    Console.WriteLine("ID".PadRight(3) + "|".PadRight(2) + "Species");
+    foreach (int row in emptyRows)
+    {
+        string IDHolder = ourAnimals[row, codeID];
+        string speciesHolder = ourAnimals[row, codeSpecies];
+        Console.WriteLine($"{IDHolder} | ({speciesHolder})");
+    }
 }
