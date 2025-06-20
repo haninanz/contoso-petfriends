@@ -126,11 +126,7 @@ do
 
                 for (int col = 2; col < dataNumber; col++)
                 {
-                    string dataDisplay;
-                    if (ourAnimals[row, col] == "")
-                        dataDisplay = "(data not yet available)";
-                    else
-                        dataDisplay = ourAnimals[row, col];
+                    string dataDisplay = ourAnimals[row, col] == "" ? "(data not yet available)" : ourAnimals[row, col];
 
                     switch (col)
                     {
@@ -253,7 +249,7 @@ do
                         Console.Write($"Enter an age for ID {ourAnimals[row, codeID]}: ");
                         animalAge = ReadInput();
                         validAge = int.TryParse(animalAge.Trim(), out petAge);
-                    } while (validAge == false);
+                    } while (!validAge);
 
                     ourAnimals[row, codeAge] = petAge.ToString();
                 }
@@ -365,12 +361,12 @@ do
                         continue;
                     }
                     rowIndex++;
-                } while (validID == false && rowIndex < maxPets);
+                } while (!validID && rowIndex < maxPets);
                 if (!validID)
                     Console.WriteLine("Animal's ID is invalid. Please try again.");
-            } while (validID == false);
+            } while (!validID);
 
-            bool isAgeValid = false;
+            bool isAgeValid;
             do
             {
                 Console.Write("Please enter a valid age for the animal: ");
@@ -385,10 +381,10 @@ do
                 {
                     ourAnimals[IDRow, codeAge] = inputAge.ToString();
                     string ID = ourAnimals[IDRow, codeID];
-                    string name = ourAnimals[IDRow, codeNickname];
+                    string name = ourAnimals[IDRow, codeNickname] != "" ? ourAnimals[IDRow, codeNickname] : "(not yet named)";
                     Console.WriteLine($"Your input has been successfully registered to animal with ID {ID} named {name}!");
                 }
-            } while (isAgeValid == false);
+            } while (!isAgeValid);
 
             Console.WriteLine("Press the Enter key to continue");
             _ = Console.ReadLine();
@@ -419,11 +415,11 @@ do
                         continue;
                     }
                     rowIndex++;
-                } while (validID == false && rowIndex < maxPets);
+                } while (!validID && rowIndex < maxPets);
                 if (!validID)
                     Console.WriteLine("Animal's ID is invalid. Please try again.");
 
-            } while (validID == false);
+            } while (!validID);
 
             bool isUpdated = false;
             string option;
@@ -452,7 +448,7 @@ do
                 }
 
                 string ID = ourAnimals[IDRow, codeID];
-                string name = ourAnimals[IDRow, codeNickname];
+                string name = ourAnimals[IDRow, codeNickname] != "" ? ourAnimals[IDRow, codeNickname] : "(not yet named)";
                 ourAnimals[IDRow, codePersDesc] = updatedPersDesc;
                 isUpdated = true;
                 Console.WriteLine($"Description has been updated successfully for animal with ID {ID} named {name}!");
@@ -713,7 +709,7 @@ void CreateNewPetData(string species, string id, string nickname, string age, st
     int index = 0;
     bool isEmpty = false;
 
-    while (isEmpty == false && index < maxPets)
+    while (!isEmpty && index < maxPets)
     {
         // Check if data is empty
         if (id == "") // If input ID is empty, then all the other data are empty too
@@ -746,6 +742,8 @@ void CreateNewPetData(string species, string id, string nickname, string age, st
         }
         index++;
     }
+
+    return;
 }
 
 void LoadingAnimation()
@@ -756,6 +754,8 @@ void LoadingAnimation()
         Thread.Sleep(500);
     }
     Console.Write($"\r{new String(' ', Console.BufferWidth)}");
+
+    return;
 }
 
 string ReadInput()
@@ -810,6 +810,8 @@ void PrintEmptyData(int[] emptyRows)
             Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + $"({speciesHolder})".PadLeft(8));
         }
     }
+
+    return;
 }
 
 void PrintEmptyDataNoName(int[] emptyRows)
@@ -821,4 +823,6 @@ void PrintEmptyDataNoName(int[] emptyRows)
         string speciesHolder = ourAnimals[row, codeSpecies];
         Console.WriteLine($"{IDHolder} | ({speciesHolder})");
     }
+
+    return;
 }
