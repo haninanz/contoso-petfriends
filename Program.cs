@@ -226,7 +226,7 @@ do
             LoadingAnimation();
 
             // Check ourAnimals[3] and ourAnimals[4] that contain ""
-            int petAge;
+            // int petAge;
             string petPhysDesc;
             int[] animalsEmptyAge = CheckEmptyRows(codeAge);
             int[] animalsEmptyPhys = CheckEmptyRows(codePhysDesc);
@@ -239,20 +239,9 @@ do
             {
                 Console.WriteLine("Animals with empty age:");
                 PrintEmptyData(animalsEmptyAge);
-                
+
                 foreach (int row in animalsEmptyAge)
-                {
-                    bool validAge = false;
-
-                    do
-                    {
-                        Console.Write($"Enter an age for ID {ourAnimals[row, codeID]}: ");
-                        animalAge = ReadInput();
-                        validAge = int.TryParse(animalAge.Trim(), out petAge);
-                    } while (!validAge);
-
-                    ourAnimals[row, codeAge] = petAge.ToString();
-                }
+                    InputAndCheckAge(row);
             }
             if (animalsEmptyPhys.Length == 0)
             {
@@ -366,25 +355,7 @@ do
                     Console.WriteLine("Animal's ID is invalid. Please try again.");
             } while (!validID);
 
-            bool isAgeValid;
-            do
-            {
-                Console.Write("Please enter a valid age for the animal: ");
-                animalAge = ReadInput();
-
-                isAgeValid = int.TryParse(animalAge.Trim(), out int inputAge);
-                if (!isAgeValid)
-                {
-                    Console.WriteLine("Input is invalid. Please try again.");
-                }
-                else
-                {
-                    ourAnimals[IDRow, codeAge] = inputAge.ToString();
-                    string ID = ourAnimals[IDRow, codeID];
-                    string name = ourAnimals[IDRow, codeNickname] != "" ? ourAnimals[IDRow, codeNickname] : "(not yet named)";
-                    Console.WriteLine($"Your input has been successfully registered to animal with ID {ID} named {name}!");
-                }
-            } while (!isAgeValid);
+            InputAndCheckAge(IDRow);
 
             Console.WriteLine("Press the Enter key to continue");
             _ = Console.ReadLine();
@@ -826,3 +797,47 @@ void PrintEmptyDataNoName(int[] emptyRows)
 
     return;
 }
+
+void InputAndCheckAge(int dataRow)
+{
+    bool isAgeValid;
+    string inputAge;
+    do
+    {
+        Console.Write($"Enter a valid age for ID {ourAnimals[dataRow, codeID]}: ");
+        inputAge = ReadInput();
+        isAgeValid = int.TryParse(inputAge.Trim(), out int petAge);
+        if (!isAgeValid)
+        {
+            Console.WriteLine("Input is invalid. Please try again.");
+        }
+        else
+        {
+            ourAnimals[dataRow, codeAge] = petAge.ToString();
+            string ID = ourAnimals[dataRow, codeID];
+            string name = ourAnimals[dataRow, codeNickname] != "" ? ourAnimals[dataRow, codeNickname] : "(not yet named)";
+            Console.WriteLine($"Your input has been successfully registered to animal with ID {ID} named {name}!");
+        }
+    } while (!isAgeValid);
+
+    return;
+}
+
+// int FindIDRow(string ID)
+// {
+//     bool isValid = false;
+//     int rowIndex = 0;
+//     int IDRow = 0;
+//     do
+//     {
+//         if (ourAnimals[rowIndex, codeID] == ID)
+//         {
+//             isValid = true;
+//             IDRow = rowIndex;
+//             continue;
+//         }
+//         rowIndex++;
+//     } while (!isValid && rowIndex < maxPets);
+
+//     return IDRow;
+// }
