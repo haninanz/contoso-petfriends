@@ -226,8 +226,6 @@ do
             LoadingAnimation();
 
             // Check ourAnimals[3] and ourAnimals[4] that contain ""
-            // int petAge;
-            string petPhysDesc;
             int[] animalsEmptyAge = CheckEmptyRows(codeAge);
             int[] animalsEmptyPhys = CheckEmptyRows(codePhysDesc);
 
@@ -251,17 +249,9 @@ do
             {
                 Console.WriteLine("Animals with empty physical description:");
                 PrintEmptyData(animalsEmptyPhys);
-                
-                foreach (int row in animalsEmptyPhys)
-                {
-                    do
-                    {
-                        Console.Write($"Enter a physical description for ID {ourAnimals[row, codeID]}: ");
-                        petPhysDesc = ReadInput();
-                    } while (petPhysDesc == "");
 
-                    ourAnimals[row, codePhysDesc] = petPhysDesc;
-                }
+                foreach (int row in animalsEmptyPhys)
+                    InputAndCheckData(row, codePhysDesc);
             }
             Console.WriteLine("Age and physical description fields are complete for all of our friends!");
 
@@ -274,8 +264,6 @@ do
             LoadingAnimation();
 
             // Check ourAnimals[2] and ourAnimals[5] that contain ""
-            string petNickname;
-            string petPersDesc;
             int[] animalsEmptyName = CheckEmptyRows(codeNickname);
             int[] animalsEmptyPers = CheckEmptyRows(codePersDesc);
 
@@ -287,17 +275,9 @@ do
             {
                 Console.WriteLine("Animals with no nickname:");
                 PrintEmptyDataNoName(animalsEmptyName);
-                
-                foreach (int row in animalsEmptyName)
-                {
-                    do
-                    {
-                        Console.Write($"Enter a nickname for ID {ourAnimals[row, codeID]}: ");
-                        petNickname = ReadInput();
-                    } while (petNickname == "");
 
-                    ourAnimals[row, codeNickname] = petNickname;
-                }
+                foreach (int row in animalsEmptyName)
+                    InputAndCheckData(row, codeNickname);
             }
             if (animalsEmptyPers.Length == 0)
             {
@@ -307,17 +287,9 @@ do
             {
                 Console.WriteLine("Animals with empty personality description");
                 PrintEmptyData(animalsEmptyPers);
-            
-                foreach (int row in animalsEmptyPers)
-                {
-                    do
-                    {
-                        Console.Write($"Enter a personality description for ID {ourAnimals[row, codeID]}: ");
-                        petPersDesc = ReadInput();
-                    } while (petPersDesc == "");
 
-                    ourAnimals[row, codePersDesc] = petPersDesc;
-                }
+                foreach (int row in animalsEmptyPers)
+                    InputAndCheckData(row, codePersDesc);
             }
             Console.WriteLine("Nickname and personality description fields are complete for all of our friends!");
 
@@ -340,17 +312,7 @@ do
                     continue;
                 }
 
-                int rowIndex = 0;
-                do
-                {
-                    if (ourAnimals[rowIndex, codeID] == ID)
-                    {
-                        validID = true;
-                        IDRow = rowIndex;
-                        continue;
-                    }
-                    rowIndex++;
-                } while (!validID && rowIndex < maxPets);
+                (validID, IDRow) = FindIDRow(ID);
                 if (!validID)
                     Console.WriteLine("Animal's ID is invalid. Please try again.");
             } while (!validID);
@@ -376,20 +338,9 @@ do
                     continue;
                 }
 
-                int rowIndex = 0;
-                do
-                {
-                    if (ourAnimals[rowIndex, codeID] == ID)
-                    {
-                        validID = true;
-                        IDRow = rowIndex;
-                        continue;
-                    }
-                    rowIndex++;
-                } while (!validID && rowIndex < maxPets);
+                (validID, IDRow) = FindIDRow(ID);
                 if (!validID)
                     Console.WriteLine("Animal's ID is invalid. Please try again.");
-
             } while (!validID);
 
             bool isUpdated = false;
@@ -823,21 +774,49 @@ void InputAndCheckAge(int dataRow)
     return;
 }
 
-// int FindIDRow(string ID)
-// {
-//     bool isValid = false;
-//     int rowIndex = 0;
-//     int IDRow = 0;
-//     do
-//     {
-//         if (ourAnimals[rowIndex, codeID] == ID)
-//         {
-//             isValid = true;
-//             IDRow = rowIndex;
-//             continue;
-//         }
-//         rowIndex++;
-//     } while (!isValid && rowIndex < maxPets);
+void InputAndCheckData(int dataRow, int dataCode)
+{
+    string petData = "";
+    string label = "";
 
-//     return IDRow;
-// }
+    switch (dataCode)
+    {
+        case 2:
+            label = "nickname";
+            break;
+        case 4:
+            label = "physical description";
+            break;
+        case 5:
+            label = "personality description";
+            break;
+        default:
+            return;
+    }
+
+    do
+    {
+        Console.Write($"Enter a {label} for ID {ourAnimals[dataRow, codeID]}: ");
+        petData = ReadInput();
+    } while (petData == "");
+    ourAnimals[dataRow, dataCode] = petData.Trim().ToLower();
+}
+
+(bool, int) FindIDRow(string ID)
+{
+    bool isValid = false;
+    int rowIndex = 0;
+    int IDRow = 0;
+    do
+    {
+        if (ourAnimals[rowIndex, codeID] == ID)
+        {
+            isValid = true;
+            IDRow = rowIndex;
+            continue;
+        }
+        rowIndex++;
+    } while (!isValid && rowIndex < maxPets);
+
+    return (isValid, IDRow);
+}
