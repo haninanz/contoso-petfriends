@@ -343,38 +343,7 @@ do
                     Console.WriteLine("Animal's ID is invalid. Please try again.");
             } while (!validID);
 
-            bool isUpdated = false;
-            string option;
-            do
-            {
-                Console.WriteLine("Please enter the updated animal's personality description: ");
-
-                string updatedPersDesc = ReadInput();
-                if (updatedPersDesc == "")
-                {
-                    do
-                    {
-                        Console.Write("The updated description is empty. Are you sure you want to proceed? (y/n) ");
-
-                        option = ReadInput();
-                        if (option == "")
-                            option = "y"; // To ensure that if option is empty, there is no unhandled exception
-                        if (option[0] == 'y' || option[0] == 'n')
-                            break;
-                        else
-                            Console.WriteLine("Your input is not a valid option. Please try again.");
-                    } while (option[0] != 'y' && option[0] != 'n');
-
-                    if (option[0] == 'n')
-                        continue;
-                }
-
-                string ID = ourAnimals[IDRow, codeID];
-                string name = ourAnimals[IDRow, codeNickname] != "" ? ourAnimals[IDRow, codeNickname] : "(not yet named)";
-                ourAnimals[IDRow, codePersDesc] = updatedPersDesc;
-                isUpdated = true;
-                Console.WriteLine($"Description has been updated successfully for animal with ID {ID} named {name}!");
-            } while (!isUpdated);
+            InputAndCheckData(IDRow, codePersDesc, true);
 
             Console.WriteLine("Press the Enter key to continue");
             _ = Console.ReadLine();
@@ -386,13 +355,10 @@ do
             do
             {
                 Console.Write("Please enter the characteristic of a cat that you're searching (use comma for multiple characteristics): ");
-
                 catCharacteristic = ReadInput();
+
                 if (catCharacteristic == "")
-                {
                     Console.WriteLine("The characteristic cannot be empty. Please try again.");
-                    continue;
-                }
             } while (catCharacteristic == "");
 
             int matchCharacteristic = 0;
@@ -504,13 +470,10 @@ do
             do
             {
                 Console.Write("Please enter the characteristic of a dog that you're searching (use comma for multiple characteristics): ");
-
                 dogCharacteristic = ReadInput();
+
                 if (dogCharacteristic == "")
-                {
                     Console.WriteLine("The characteristic cannot be empty. Please try again.");
-                    continue;
-                }
             } while (dogCharacteristic == "");
 
             matchCharacteristic = 0;
@@ -757,7 +720,7 @@ void InputAndCheckAge(int dataRow)
     {
         Console.Write($"Enter a valid age for ID {ourAnimals[dataRow, codeID]}: ");
         inputAge = ReadInput();
-        isAgeValid = int.TryParse(inputAge.Trim(), out int petAge);
+        isAgeValid = int.TryParse(inputAge, out int petAge);
         if (!isAgeValid)
         {
             Console.WriteLine("Input is invalid. Please try again.");
@@ -774,7 +737,7 @@ void InputAndCheckAge(int dataRow)
     return;
 }
 
-void InputAndCheckData(int dataRow, int dataCode)
+void InputAndCheckData(int dataRow, int dataCode, bool enableEmpty = false)
 {
     string petData = "";
     string label = "";
@@ -794,12 +757,50 @@ void InputAndCheckData(int dataRow, int dataCode)
             return;
     }
 
-    do
+    string ID = ourAnimals[dataRow, codeID];
+    string name = ourAnimals[dataRow, codeNickname] != "" ? ourAnimals[dataRow, codeNickname] : "(not yet named)";
+    if (enableEmpty)
     {
-        Console.Write($"Enter a {label} for ID {ourAnimals[dataRow, codeID]}: ");
-        petData = ReadInput();
-    } while (petData == "");
-    ourAnimals[dataRow, dataCode] = petData.Trim().ToLower();
+        bool isUpdated = false;
+        string option;
+        do
+        {
+            Console.Write($"Enter a {label} for ID {ID}: ");
+            petData = ReadInput();
+            if (petData == "")
+            {
+                do
+                {
+                    Console.Write($"The updated {label} is empty. Are you sure you want to proceed? (y/n) ");
+                    option = ReadInput();
+                    if (option == "")
+                        option = "y"; // To ensure that if option is empty, there is no unhandled exception
+                    if (option[0] == 'y' || option[0] == 'n')
+                        break;
+                    else
+                        Console.WriteLine("Your input is not a valid option. Please try again.");
+                } while (option[0] != 'y' && option[0] != 'n');
+                if (option[0] == 'n')
+                    continue;
+            }
+
+            isUpdated = true;
+        } while (!isUpdated);
+    }
+    else
+    {
+        do
+        {
+            Console.Write($"Enter a {label} for ID {ourAnimals[dataRow, codeID]}: ");
+            petData = ReadInput();
+
+            if (petData == "")
+                Console.WriteLine("Input cannot be empty.");
+        } while (petData == "");
+    }
+
+    ourAnimals[dataRow, dataCode] = petData;
+    Console.WriteLine($"The {label} has been updated successfully for animal with ID {ID} named {name}!");
 }
 
 (bool, int) FindIDRow(string ID)
