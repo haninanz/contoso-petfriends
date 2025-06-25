@@ -12,4 +12,4 @@ Currently working as intended (screenshots may be added later if I have the time
 6. ~~Add loading animation for menu selection 7 & 8~~ (done)
 7. ~~Modify menu selection 7 & 8 to highlight the keyword that appeared in the animal's description~~ (done)
 8. ~~Refactor everything~~ (done, possible future changes/addition)
-9. Add loop to the task chosen instead of exiting immediately
+9. Add loop to the task chosen (menu selection 2, 5, 6, 7, 8) instead of exiting immediately
