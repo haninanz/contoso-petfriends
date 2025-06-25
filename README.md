@@ -11,4 +11,4 @@ Currently working as intended (screenshots may be added later if I have the time
 5. ~~Modify menu selection 7 & 8 to enable search with multiple keywords (comma-separated)~~ (done)
 6. ~~Add loading animation for menu selection 7 & 8~~ (done)
 7. ~~Modify menu selection 7 & 8 to highlight the keyword that appeared in the animal's description~~ (done)
-8. Refactor everything
+8. ~~Refactor everything~~ (done, possible future changes/addition)

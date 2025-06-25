@@ -351,113 +351,27 @@ do
         case "7":
             Console.WriteLine($"You selected menu option {menuSelection}");
 
-            string catCharacteristic;
-            do
-            {
-                Console.Write("Please enter the characteristic of a cat that you're searching (use comma for multiple characteristics): ");
-                catCharacteristic = ReadInput();
-
-                if (catCharacteristic == "")
-                    Console.WriteLine("The characteristic cannot be empty. Please try again.");
-            } while (catCharacteristic == "");
-
-            int matchCharacteristic = 0;
-            int[] matchPhysChar = [];
-            int[] matchPersChar = [];
-            string[] arrayChars = [.. catCharacteristic.Split(["or", "and", ",", " "], StringSplitOptions.RemoveEmptyEntries).Distinct()];
+            string[] arrayChars = GetKeywords();
 
             Console.Write("Searching our cats");
             LoadingAnimation();
 
-            foreach (string keyword in arrayChars)
-            {
-                for (int row = 0; row < maxPets; row++)
-                {
-                    if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'd')
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        if (ourAnimals[row, codePhysDesc].Contains(keyword))
-                        {
-                            if (!matchPhysChar.Contains(row))
-                            {
-                                matchPhysChar = [.. matchPhysChar, row];
-                                matchCharacteristic++;
-                            }
-                        }
-                        if (ourAnimals[row, codePersDesc].Contains(keyword))
-                        {
-                            if (!matchPersChar.Contains(row))
-                            {
-                                matchPersChar = [.. matchPersChar, row];
-                                matchCharacteristic++;
-                            }
-                        }
-                    }
-                }
-            }
+            (int matchCharacteristic, int[] matchPhysChar, int[] matchPersChar) = FindMatchDesc(arrayChars, "cat");
 
             // Display found animals with the given characteristic
             if (matchCharacteristic == 0)
             {
-                Console.WriteLine($"No cat has the characteristic {catCharacteristic}");
+                string characteristic = string.Join(", ", arrayChars);
+                Console.WriteLine($"No cat has the characteristic {characteristic}");
             }
             else
             {
-                int totalLetters = 24;
-                string strDesc = "Description";
-                int paddingLeft;
-
                 Console.WriteLine($"There are {matchCharacteristic} matching/similar results.");
 
                 if (matchPhysChar.Length != 0)
-                {
-                    Console.WriteLine($"Matching physical description:");
-                    Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|".PadRight(2) + $"{strDesc}");
-                    foreach (int row in matchPhysChar)
-                    {
-                        string IDHolder = ourAnimals[row, codeID];
-                        string nameHolder = ourAnimals[row, codeNickname];
-                        string descHolder = ourAnimals[row, codePhysDesc];
-                        string[] matchKeyword = [];
-                        paddingLeft = nameHolder.Length + 1;
-
-                        foreach (string keyword in arrayChars)
-                        {
-                            if (descHolder.Contains(keyword))
-                            {
-                                descHolder = descHolder.Replace(keyword, $"\x1b[4m{keyword}\x1b[24m");
-                                matchKeyword = [.. matchKeyword, keyword];
-                            }
-                        }
-                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}" + $" (Found: {String.Join(", ", matchKeyword)})");
-                    }
-                }
+                    PrintMatchingDesc("physical description", matchPhysChar, arrayChars);
                 if (matchPersChar.Length != 0)
-                {
-                    Console.WriteLine($"Matching personality description:");
-                    Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|".PadRight(2) + $"{strDesc}");
-                    foreach (int row in matchPersChar)
-                    {
-                        string IDHolder = ourAnimals[row, codeID];
-                        string nameHolder = ourAnimals[row, codeNickname];
-                        string descHolder = ourAnimals[row, codePersDesc];
-                        string[] matchKeyword = [];
-                        paddingLeft = nameHolder.Length + 1;
-
-                        foreach (string keyword in arrayChars)
-                        {
-                            if (descHolder.Contains(keyword))
-                            {
-                                descHolder = descHolder.Replace(keyword, $"\x1b[4m{keyword}\x1b[24m");
-                                matchKeyword = [.. matchKeyword, keyword];
-                            }
-                        }
-                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}" + $" (Found: {String.Join(", ", matchKeyword)})");
-                    }
-                }
+                    PrintMatchingDesc("personality description", matchPersChar, arrayChars);
             }
 
             Console.WriteLine("Press the Enter key to continue");
@@ -466,113 +380,27 @@ do
         case "8":
             Console.WriteLine($"You selected menu option {menuSelection}");
 
-            string dogCharacteristic;
-            do
-            {
-                Console.Write("Please enter the characteristic of a dog that you're searching (use comma for multiple characteristics): ");
-                dogCharacteristic = ReadInput();
-
-                if (dogCharacteristic == "")
-                    Console.WriteLine("The characteristic cannot be empty. Please try again.");
-            } while (dogCharacteristic == "");
-
-            matchCharacteristic = 0;
-            matchPhysChar = [];
-            matchPersChar = [];
-            arrayChars = [.. dogCharacteristic.Split(["or", "and", ",", " "], StringSplitOptions.RemoveEmptyEntries).Distinct()];
+            arrayChars = GetKeywords();
 
             Console.Write("Searching our dogs");
             LoadingAnimation();
 
-            foreach (string keyword in arrayChars)
-            {
-                for (int row = 0; row < maxPets; row++)
-                {
-                    if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] == 'c')
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        if (ourAnimals[row, codePhysDesc].Contains(keyword))
-                        {
-                            if (!matchPhysChar.Contains(row))
-                            {
-                                matchPhysChar = [.. matchPhysChar, row];
-                                matchCharacteristic++;
-                            }
-                        }
-                        if (ourAnimals[row, codePersDesc].Contains(keyword))
-                        {
-                            if (!matchPersChar.Contains(row))
-                            {
-                                matchPersChar = [.. matchPersChar, row];
-                                matchCharacteristic++;
-                            }
-                        }
-                    }
-                }
-            }
+            (matchCharacteristic, matchPhysChar, matchPersChar) = FindMatchDesc(arrayChars, "dog");
 
             // Display found animals with the given characteristic
             if (matchCharacteristic == 0)
             {
-                Console.WriteLine($"No dog has the characteristic {dogCharacteristic}");
+                string characteristic = string.Join(", ", arrayChars);
+                Console.WriteLine($"No dog has the characteristic {characteristic}");
             }
             else
             {
-                int totalLetters = 24;
-                string strDesc = "Description";
-                int paddingLeft;
-
                 Console.WriteLine($"There are {matchCharacteristic} matching/similar results.");
 
                 if (matchPhysChar.Length != 0)
-                {
-                    Console.WriteLine($"Matching physical description:");
-                    Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|".PadRight(2) + $"{strDesc}");
-                    foreach (int row in matchPhysChar)
-                    {
-                        string IDHolder = ourAnimals[row, codeID];
-                        string nameHolder = ourAnimals[row, codeNickname];
-                        string descHolder = ourAnimals[row, codePhysDesc];
-                        string[] matchKeyword = [];
-                        paddingLeft = nameHolder.Length + 1;
-
-                        foreach (string keyword in arrayChars)
-                        {
-                            if (descHolder.Contains(keyword))
-                            {
-                                descHolder = descHolder.Replace(keyword, $"\x1b[4m{keyword}\x1b[24m");
-                                matchKeyword = [.. matchKeyword, keyword];
-                            }
-                        }
-                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}" + $" (Found: {String.Join(", ", matchKeyword)})");
-                    }
-                }
+                    PrintMatchingDesc("physical description", matchPhysChar, arrayChars);
                 if (matchPersChar.Length != 0)
-                {
-                    Console.WriteLine($"Matching personality description:");
-                    Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|".PadRight(2) + $"{strDesc}");
-                    foreach (int row in matchPersChar)
-                    {
-                        string IDHolder = ourAnimals[row, codeID];
-                        string nameHolder = ourAnimals[row, codeNickname];
-                        string descHolder = ourAnimals[row, codePersDesc];
-                        string[] matchKeyword = [];
-                        paddingLeft = nameHolder.Length + 1;
-
-                        foreach (string keyword in arrayChars)
-                        {
-                            if (descHolder.Contains(keyword))
-                            {
-                                descHolder = descHolder.Replace(keyword, $"\x1b[4m{keyword}\x1b[24m");
-                                matchKeyword = [.. matchKeyword, keyword];
-                            }
-                        }
-                        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}" + $" (Found: {String.Join(", ", matchKeyword)})");
-                    }
-                }
+                    PrintMatchingDesc("personality description", matchPersChar, arrayChars);
             }
 
             Console.WriteLine("Press the Enter key to continue");
@@ -820,4 +648,98 @@ void InputAndCheckData(int dataRow, int dataCode, bool enableEmpty = false)
     } while (!isValid && rowIndex < maxPets);
 
     return (isValid, IDRow);
+}
+
+string[] GetKeywords()
+{
+    string characteristic;
+    do
+    {
+        Console.Write("Please enter the characteristic that you're searching (use comma for multiple characteristics): ");
+        characteristic = ReadInput();
+        if (characteristic == "")
+            Console.WriteLine("The characteristic cannot be empty. Please try again.");
+    } while (characteristic == "");
+
+    string[] keywords = [.. characteristic.Split(["or", "and", ",", " "], StringSplitOptions.RemoveEmptyEntries).Distinct()];
+
+    return keywords;
+}
+
+(int, int[], int[]) FindMatchDesc(string[] keywords, string label)
+{
+    int matchCount = 0;
+    int[] matchPhysChar = [];
+    int[] matchPersChar = [];
+
+    foreach (string keyword in keywords)
+    {
+        for (int row = 0; row < maxPets; row++)
+        {
+            if (ourAnimals[row, codeID] == "" || ourAnimals[row, codeID][0] != label[0])
+            {
+                continue;
+            }
+            else
+            {
+                if (ourAnimals[row, codePhysDesc].Contains(keyword))
+                {
+                    if (!matchPhysChar.Contains(row))
+                    {
+                        matchPhysChar = [.. matchPhysChar, row];
+                        matchCount++;
+                    }
+                }
+                if (ourAnimals[row, codePersDesc].Contains(keyword))
+                {
+                    if (!matchPersChar.Contains(row))
+                    {
+                        matchPersChar = [.. matchPersChar, row];
+                        matchCount++;
+                    }
+                }
+            }
+        }
+    }
+
+    return (matchCount, matchPhysChar, matchPersChar);
+}
+
+void PrintMatchingDesc(string label, int[] matchRowData, string[] keywords)
+{
+    int codeDesc;
+    int totalLetters = 24;
+    string strDesc = "Description";
+
+    switch (label)
+    {
+        case "physical description":
+            codeDesc = codePhysDesc;
+            break;
+        case "personality description":
+            codeDesc = codePersDesc;
+            break;
+        default:
+            return;
+    }
+
+    Console.WriteLine($"Matching {label}:");
+    Console.WriteLine("ID".PadRight(3) + "|" + "Nickname".PadLeft(16).PadRight(totalLetters) + "|".PadRight(2) + $"{strDesc}");
+    foreach (int row in matchRowData)
+    {
+        string IDHolder = ourAnimals[row, codeID];
+        string nameHolder = ourAnimals[row, codeNickname];
+        string descHolder = ourAnimals[row, codeDesc];
+        string[] matchKeyword = [];
+        int paddingLeft = nameHolder.Length + 1;
+        foreach (string keyword in keywords)
+        {
+            if (descHolder.Contains(keyword))
+            {
+                descHolder = descHolder.Replace(keyword, $"\x1b[4m{keyword}\x1b[24m");
+                matchKeyword = [.. matchKeyword, keyword];
+            }
+        }
+        Console.WriteLine($"{IDHolder}".PadRight(3) + "|" + $"{nameHolder}".PadLeft(paddingLeft).PadRight(totalLetters) + "|".PadRight(2) + $"{descHolder}" + $" (Found: {String.Join(", ", matchKeyword)})");
+    }
 }
