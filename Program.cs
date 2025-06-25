@@ -1,8 +1,8 @@
 ﻿// Contoso PetFriends
-// the ourAnimals array will store the following: 
 using System.Data;
 using System.Linq.Expressions;
 
+// the ourAnimals array will store the following: 
 string animalSpecies;
 string animalID;
 string animalAge;
